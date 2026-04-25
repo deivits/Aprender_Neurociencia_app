@@ -592,6 +592,51 @@
     margin-bottom: .3rem;
   }
 
+  .mapa-shell {
+    position: relative;
+    border-radius: 22px;
+    border: 1px solid var(--border);
+    background: linear-gradient(145deg, rgba(255,255,255,.82), rgba(236,232,222,.52));
+    padding: 1rem;
+    box-shadow: 0 18px 34px rgba(14,14,20,.08);
+    animation: mapaReveal .55s cubic-bezier(.25,.9,.2,1) both;
+  }
+
+  @keyframes mapaReveal {
+    from { opacity: 0; transform: translateY(12px) scale(.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .mapa-shell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(120deg, rgba(201,168,76,.3), rgba(62,184,184,.26), rgba(92,61,143,.24));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  #brain-viewport,
+  #brain-panel {
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+
+  .mapa-shell:hover #brain-viewport {
+    transform: translateY(-2px) scale(1.003);
+    border-color: rgba(201,168,76,.34);
+    box-shadow: 0 24px 44px rgba(0,0,0,.28);
+  }
+
+  .mapa-shell:hover #brain-panel {
+    transform: translateY(-2px);
+    border-color: rgba(92,61,143,.2);
+    box-shadow: 0 16px 28px rgba(14,14,20,.12);
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     .hero { grid-template-columns: 1fr; }
@@ -639,7 +684,7 @@
   <div class="nav-item" onclick="navigate('neuroplasticidad',this)"><span class="nav-icon">🔀</span> Neuroplasticidad</div>
   <div class="nav-item" onclick="navigate('nutricion',this)"><span class="nav-icon">🥑</span> Nutrición Cerebral</div>
   <div class="nav-item" onclick="navigate('ejercicio',this)"><span class="nav-icon">🏃</span> Ejercicio & Cerebro</div>
-  <div class="nav-item" onclick="navigate('brain3d',this)"><span class="nav-icon">🧠</span> Explorador Cerebral 3D</div>
+  <div class="nav-item" onclick="navigate('mapa',this)"><span class="nav-icon">🗺️</span> Mapa Cerebral 3D</div>
   <div class="nav-item" onclick="navigate('quiz',this)"><span class="nav-icon">✏️</span> Test de Conocimiento <span class="nav-badge">Quiz</span></div>
 </nav>
 
@@ -1437,26 +1482,28 @@
 
 
   <!-- ══════════════ EXPLORADOR 3D ══════════════ -->
-  <div id="page-brain3d" class="page">
+  <div id="page-mapa" class="page">
     <div class="content-hero" data-emoji="🧠" style="border-left: 5px solid var(--gold);">
       <div class="content-tag" style="color:var(--gold)">Exploración Interactiva</div>
       <h1 class="content-h1">Mapa Cerebral 3D</h1>
       <p class="content-intro">Arrastra, acerca y haz click sobre regiones del cerebro para descubrir su función en lenguaje simple y con ejemplos cotidianos.</p>
     </div>
     <div class="content-body">
-      <div class="brain3d-layout">
-        <div id="brain-viewport" aria-label="Visualizador 3D del cerebro"></div>
-        <aside id="brain-panel" class="is-visible" aria-live="polite">
-          <div class="brain-panel-header">
-            <h3 data-region-name style="font-family:'Playfair Display', serif; font-size:1.3rem;">Selecciona una región</h3>
-            <button class="brain-close" type="button" data-panel-close aria-label="Cerrar panel">×</button>
-          </div>
-          <p class="body-text">Haz click en una zona del modelo para ver nombre, función y ejemplo práctico.</p>
-          <div class="brain-data-label">Función</div>
-          <p class="body-text" data-region-function>Interactiva: usa el mouse o tu dedo para rotar el cerebro y explorar cada área.</p>
-          <div class="brain-data-label">Ejemplo práctico</div>
-          <p class="body-text" data-region-example>Ejemplo: el lóbulo frontal te ayuda a planificar lo que harás primero durante el día.</p>
-        </aside>
+      <div class="mapa-shell">
+        <div class="brain3d-layout">
+          <div id="brain-viewport" aria-label="Visualizador 3D del cerebro"></div>
+          <aside id="brain-panel" class="is-visible" aria-live="polite">
+            <div class="brain-panel-header">
+              <h3 data-region-name style="font-family:'Playfair Display', serif; font-size:1.3rem;">Selecciona una región</h3>
+              <button class="brain-close" type="button" data-panel-close aria-label="Cerrar panel">×</button>
+            </div>
+            <p class="body-text">Haz click en una zona del modelo para ver nombre, función y ejemplo práctico.</p>
+            <div class="brain-data-label">Función</div>
+            <p class="body-text" data-region-function>Interactiva: usa el mouse o tu dedo para rotar el cerebro y explorar cada área.</p>
+            <div class="brain-data-label">Ejemplo práctico</div>
+            <p class="body-text" data-region-example>Ejemplo: el lóbulo frontal te ayuda a planificar lo que harás primero durante el día.</p>
+          </aside>
+        </div>
       </div>
     </div>
   </div>
@@ -1489,12 +1536,14 @@
     home: 'Inicio', desarrollo: 'Desarrollo Cerebral', ninez: 'Niñez',
     adolescencia: 'Adolescencia', adultez: 'Adultez', memoria: 'Memoria',
     atencion: 'Atención', emocion: 'Emoción', sueno: 'Sueño',
-    neuroplasticidad: 'Neuroplasticidad', nutricion: 'Nutrición', ejercicio: 'Ejercicio', brain3d: 'Explorador 3D', quiz: 'Quiz'
+    neuroplasticidad: 'Neuroplasticidad', nutricion: 'Nutrición', ejercicio: 'Ejercicio', mapa: 'Mapa Cerebral 3D', brain3d: 'Mapa Cerebral 3D', quiz: 'Quiz'
   };
 
   function navigate(pageId, navEl) {
+    if (pageId === 'brain3d') pageId = 'mapa';
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-' + pageId).classList.add('active');
+    const targetPage = document.getElementById('page-' + pageId) || document.getElementById('page-home');
+    targetPage.classList.add('active');
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     if (navEl) navEl.classList.add('active');
     else {

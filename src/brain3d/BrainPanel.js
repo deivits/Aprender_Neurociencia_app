@@ -58,7 +58,7 @@ function bootstrapBrain3D() {
   });
 
   window.addEventListener('page:changed', (event) => {
-    if (event.detail?.pageId === 'brain3d') {
+    if (event.detail?.pageId === 'brain3d' || event.detail?.pageId === 'mapa') {
       sceneApi.onResize();
     }
   });
