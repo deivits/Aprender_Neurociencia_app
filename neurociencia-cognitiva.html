@@ -462,6 +462,136 @@
   }
   .body-text { font-size: .9rem; color: rgba(14,14,20,.65); line-height: 1.7; margin-bottom: 1rem; }
 
+
+  /* ── BRAIN 3D EXPERIENCE ── */
+  .brain3d-layout {
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) 340px;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  #brain-viewport {
+    min-height: 520px;
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    background: radial-gradient(circle at 20% 20%, #1f2740 0%, #0f1118 45%, #07090f 100%);
+    border: 1px solid rgba(201,168,76,0.26);
+    box-shadow: 0 20px 40px rgba(0,0,0,.24);
+  }
+
+  .brain-loader-overlay {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(140deg, rgba(7,10,18,.92), rgba(18,24,40,.82));
+    backdrop-filter: blur(3px);
+    padding: 1.2rem;
+    z-index: 12;
+  }
+
+  .brain-skeleton-card, .brain-fallback-card {
+    width: min(380px, 92%);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.13);
+    background: rgba(245,242,235,.04);
+    padding: 1rem;
+    color: var(--paper);
+  }
+
+  .brain-skeleton-glow {
+    height: 160px;
+    border-radius: 12px;
+    margin-bottom: .9rem;
+    background: linear-gradient(120deg, rgba(201,168,76,.18), rgba(62,184,184,.15), rgba(201,168,76,.18));
+    background-size: 220% 220%;
+    animation: shimmer 1.8s linear infinite;
+  }
+
+  @keyframes shimmer {
+    to { background-position: 180% 0; }
+  }
+
+  .brain-skeleton-line {
+    height: 10px;
+    background: rgba(255,255,255,.16);
+    border-radius: 999px;
+    margin-bottom: .6rem;
+  }
+
+  .brain-skeleton-line.short { width: 65%; }
+
+  .brain-progress {
+    height: 7px;
+    background: rgba(255,255,255,.13);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: .5rem 0 .8rem;
+  }
+
+  .brain-progress span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--teal-light));
+  }
+
+  .brain-fallback-btn {
+    margin-top: .7rem;
+    background: var(--gold);
+    border: none;
+    color: var(--ink);
+    font-weight: 700;
+    border-radius: 999px;
+    padding: .6rem 1rem;
+    cursor: pointer;
+  }
+
+  #brain-panel {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 1.2rem;
+    min-height: 520px;
+    box-shadow: 0 12px 24px rgba(14,14,20,.08);
+    transform: translateY(8px);
+    opacity: .65;
+    transition: opacity .25s ease, transform .25s ease;
+  }
+
+  #brain-panel.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .brain-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: .8rem;
+    margin-bottom: .8rem;
+  }
+
+  .brain-close {
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 999px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+  }
+
+  .brain-data-label {
+    font-size: .74rem;
+    text-transform: uppercase;
+    letter-spacing: .11em;
+    color: rgba(14,14,20,.5);
+    margin-top: 1rem;
+    margin-bottom: .3rem;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     .hero { grid-template-columns: 1fr; }
@@ -476,6 +606,8 @@
     .brain-ring:nth-child(2) { width:185px;height:185px; }
     .brain-ring:nth-child(3) { width:140px;height:140px; }
     .brain-ring:nth-child(4) { width:95px;height:95px; }
+    .brain3d-layout { grid-template-columns: 1fr; }
+    #brain-viewport, #brain-panel { min-height: 420px; }
   }
 </style>
 </head>
@@ -507,6 +639,7 @@
   <div class="nav-item" onclick="navigate('neuroplasticidad',this)"><span class="nav-icon">🔀</span> Neuroplasticidad</div>
   <div class="nav-item" onclick="navigate('nutricion',this)"><span class="nav-icon">🥑</span> Nutrición Cerebral</div>
   <div class="nav-item" onclick="navigate('ejercicio',this)"><span class="nav-icon">🏃</span> Ejercicio & Cerebro</div>
+  <div class="nav-item" onclick="navigate('brain3d',this)"><span class="nav-icon">🧠</span> Explorador Cerebral 3D</div>
   <div class="nav-item" onclick="navigate('quiz',this)"><span class="nav-icon">✏️</span> Test de Conocimiento <span class="nav-badge">Quiz</span></div>
 </nav>
 
@@ -1302,6 +1435,32 @@
     </div>
   </div>
 
+
+  <!-- ══════════════ EXPLORADOR 3D ══════════════ -->
+  <div id="page-brain3d" class="page">
+    <div class="content-hero" data-emoji="🧠" style="border-left: 5px solid var(--gold);">
+      <div class="content-tag" style="color:var(--gold)">Exploración Interactiva</div>
+      <h1 class="content-h1">Mapa Cerebral 3D</h1>
+      <p class="content-intro">Arrastra, acerca y haz click sobre regiones del cerebro para descubrir su función en lenguaje simple y con ejemplos cotidianos.</p>
+    </div>
+    <div class="content-body">
+      <div class="brain3d-layout">
+        <div id="brain-viewport" aria-label="Visualizador 3D del cerebro"></div>
+        <aside id="brain-panel" class="is-visible" aria-live="polite">
+          <div class="brain-panel-header">
+            <h3 data-region-name style="font-family:'Playfair Display', serif; font-size:1.3rem;">Selecciona una región</h3>
+            <button class="brain-close" type="button" data-panel-close aria-label="Cerrar panel">×</button>
+          </div>
+          <p class="body-text">Haz click en una zona del modelo para ver nombre, función y ejemplo práctico.</p>
+          <div class="brain-data-label">Función</div>
+          <p class="body-text" data-region-function>Interactiva: usa el mouse o tu dedo para rotar el cerebro y explorar cada área.</p>
+          <div class="brain-data-label">Ejemplo práctico</div>
+          <p class="body-text" data-region-example>Ejemplo: el lóbulo frontal te ayuda a planificar lo que harás primero durante el día.</p>
+        </aside>
+      </div>
+    </div>
+  </div>
+
   <!-- ══════════════ QUIZ ══════════════ -->
   <div id="page-quiz" class="page">
     <div class="content-hero" data-emoji="✏️" style="border-left: 5px solid var(--gold);">
@@ -1330,7 +1489,7 @@
     home: 'Inicio', desarrollo: 'Desarrollo Cerebral', ninez: 'Niñez',
     adolescencia: 'Adolescencia', adultez: 'Adultez', memoria: 'Memoria',
     atencion: 'Atención', emocion: 'Emoción', sueno: 'Sueño',
-    neuroplasticidad: 'Neuroplasticidad', nutricion: 'Nutrición', ejercicio: 'Ejercicio', quiz: 'Quiz'
+    neuroplasticidad: 'Neuroplasticidad', nutricion: 'Nutrición', ejercicio: 'Ejercicio', brain3d: 'Explorador 3D', quiz: 'Quiz'
   };
 
   function navigate(pageId, navEl) {
@@ -1351,6 +1510,7 @@
     }
     window.scrollTo(0,0);
     if (pageId === 'quiz') renderQuiz();
+    window.dispatchEvent(new CustomEvent('page:changed', { detail: { pageId } }));
   }
 
   // ── TABS ──
@@ -1502,5 +1662,6 @@
   // Init
   renderQuiz();
 </script>
+<script type="module" src="./src/brain3d/BrainPanel.js"></script>
 </body>
 </html>
