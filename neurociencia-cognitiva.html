@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroMente — Neurociencia & Performance Cognitivo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0e14;
+    --paper: #f5f2eb;
+    --cream: #ece8de;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --coral: #e05c3a;
+    --teal: #2a8a8a;
+    --teal-light: #3eb8b8;
+    --violet: #5c3d8f;
+    --violet-light: #8b6abf;
+    --sage: #5a7a5a;
+    --rose: #c45c7a;
+    --sky: #3a6ea8;
+    --accent: #c9a84c;
+    --border: rgba(14,14,20,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  #sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 280px;
+    background: var(--ink);
+    color: var(--paper);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-280px);
+    transition: transform .4s cubic-bezier(.4,0,.2,1);
+    overflow-y: auto;
+  }
+  #sidebar.open { transform: translateX(0); }
+
+  .sidebar-logo {
+    padding: 2rem 1.5rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .sidebar-logo h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+    line-height: 1.1;
+  }
+  .sidebar-logo p { font-size: .75rem; color: rgba(245,242,235,.5); margin-top:.3rem; letter-spacing:.08em; text-transform:uppercase; }
+
+  .nav-section { padding: 1.2rem 0 .5rem 1.5rem; font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.3); }
+
+  .nav-item {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .7rem 1.5rem;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+    font-size: .88rem;
+    font-weight: 400;
+    color: rgba(245,242,235,.75);
+    border-left: 2px solid transparent;
+    position: relative;
+  }
+  .nav-item:hover { background: rgba(255,255,255,.04); color: var(--paper); }
+  .nav-item.active { color: var(--gold); border-left-color: var(--gold); background: rgba(201,168,76,.06); font-weight: 600; }
+  .nav-icon { font-size: 1rem; width: 1.2rem; text-align: center; }
+  .nav-badge { margin-left:auto; font-size:.62rem; background:var(--gold); color:var(--ink); border-radius:99px; padding:.1rem .45rem; font-weight:700; }
+
+  /* ── TOPBAR ── */
+  #topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 60px;
+    background: rgba(245,242,235,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+    padding: 0 1.5rem;
+    z-index: 99;
+    gap: 1rem;
+  }
+  #menu-btn {
+    width: 40px; height: 40px;
+    background: var(--ink); color: var(--paper);
+    border: none; border-radius: 8px;
+    cursor: pointer; font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background .2s;
+  }
+  #menu-btn:hover { background: var(--violet); }
+  .topbar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--ink);
+  }
+  .topbar-breadcrumb {
+    font-size: .8rem; color: rgba(14,14,20,.45);
+    margin-left: auto;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── OVERLAY ── */
+  #overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(14,14,20,.5); z-index: 90;
+    backdrop-filter: blur(2px);
+  }
+  #overlay.show { display: block; }
+
+  /* ── MAIN ── */
+  #main {
+    padding-top: 60px;
+    min-height: 100vh;
+    transition: opacity .3s;
+  }
+
+  /* ── PAGE ── */
+  .page { display: none; animation: fadeIn .4s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ── HOME / HERO ── */
+  .hero {
+    min-height: calc(100vh - 60px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    padding: 5rem 4rem 4rem 4rem;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; z-index: 2;
+  }
+  .hero-tag {
+    font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 1.5rem;
+    display: inline-flex; align-items: center; gap: .5rem;
+  }
+  .hero-tag::before { content:''; width:2rem; height:1px; background:var(--gold); }
+  .hero-h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    line-height: 1.05; font-weight: 900;
+    margin-bottom: 1.5rem;
+  }
+  .hero-h1 em { color: var(--teal); font-style: italic; }
+  .hero-sub {
+    font-size: 1.05rem; color: rgba(14,14,20,.6);
+    max-width: 420px; line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .hero-cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--ink); color: var(--paper);
+    padding: .85rem 2rem; border-radius: 99px;
+    font-size: .9rem; font-weight: 600;
+    cursor: pointer; border: none;
+    transition: background .2s, transform .15s;
+    letter-spacing:.02em;
+  }
+  .btn-primary:hover { background: var(--teal); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--ink);
+    padding: .85rem 2rem; border-radius: 99px;
+    font-size: .9rem; font-weight: 500;
+    cursor: pointer; border: 1.5px solid var(--ink);
+    transition: all .2s;
+  }
+  .btn-outline:hover { background: var(--ink); color: var(--paper); }
+  .hero-right {
+    background: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .brain-graphic {
+    width: 380px; height: 380px;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .brain-ring {
+    position: absolute; border-radius: 50%; border: 1px solid;
+    animation: spinRing linear infinite;
+  }
+  .brain-ring:nth-child(1) { width:360px;height:360px;border-color:rgba(201,168,76,.15);animation-duration:30s; }
+  .brain-ring:nth-child(2) { width:290px;height:290px;border-color:rgba(62,184,184,.2);animation-duration:20s;animation-direction:reverse; }
+  .brain-ring:nth-child(3) { width:220px;height:220px;border-color:rgba(92,61,143,.25);animation-duration:14s; }
+  .brain-ring:nth-child(4) { width:150px;height:150px;border-color:rgba(201,168,76,.3);animation-duration:9s;animation-direction:reverse; }
+  @keyframes spinRing { to { transform:rotate(360deg); } }
+  .brain-center {
+    width: 90px; height: 90px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem;
+    z-index: 1;
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.08);} }
+  .orbit-dot {
+    position: absolute; width: 10px; height: 10px;
+    border-radius: 50%;
+    animation: orbit linear infinite;
+  }
+  @keyframes orbit { to { transform: rotate(360deg); } }
+
+  /* ── STAT CARDS (home) ── */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 1px; background: var(--border);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-card {
+    background: var(--paper); padding: 2.5rem 2rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem; font-weight: 900;
+    color: var(--teal); line-height: 1;
+    margin-bottom: .4rem;
+  }
+  .stat-label { font-size: .82rem; color: rgba(14,14,20,.5); line-height: 1.4; }
+
+  /* ── MODULE CARDS ── */
+  .modules-section { padding: 5rem 3rem; }
+  .section-header { text-align: center; margin-bottom: 3.5rem; }
+  .section-tag {
+    font-size: .7rem; letter-spacing:.15em; text-transform:uppercase;
+    color: var(--gold); font-weight:600; margin-bottom:.8rem;
+  }
+  .section-h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem; font-weight: 800;
+  }
+  .section-sub { color: rgba(14,14,20,.55); margin-top:.8rem; font-size:1rem; }
+
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .module-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+    position: relative;
+  }
+  .module-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(14,14,20,.1); }
+  .module-card-top {
+    height: 120px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+    position: relative; overflow: hidden;
+  }
+  .module-card-body { padding: 1.5rem; }
+  .module-card-tag {
+    font-size: .68rem; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:600; margin-bottom:.5rem;
+  }
+  .module-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight:700; margin-bottom:.5rem;
+  }
+  .module-card p { font-size: .83rem; color: rgba(14,14,20,.55); line-height: 1.5; }
+  .module-card-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: .78rem; color: rgba(14,14,20,.4);
+  }
+  .card-arrow { font-size: 1rem; transition: transform .2s; }
+  .module-card:hover .card-arrow { transform: translateX(4px); }
+
+  /* ── CONTENT PAGES ── */
+  .content-hero {
+    padding: 4rem 4rem 3rem;
+    border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .content-hero::before {
+    content: attr(data-emoji);
+    position: absolute; right: 3rem; top: 50%; transform: translateY(-50%);
+    font-size: 8rem; opacity: .07;
+    pointer-events: none;
+  }
+  .content-tag {
+    font-size: .7rem; letter-spacing:.15em; text-transform:uppercase;
+    font-weight:600; margin-bottom:1rem;
+  }
+  .content-h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900; line-height: 1.1;
+    max-width: 600px;
+    margin-bottom: 1rem;
+  }
+  .content-intro {
+    font-size: 1.05rem; color: rgba(14,14,20,.6);
+    max-width: 560px; line-height: 1.7;
+  }
+
+  .content-body { padding: 3rem 4rem; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 2.5rem; }
+  .timeline::before {
+    content:''; position:absolute; left:.75rem; top:0; bottom:0;
+    width: 2px; background: linear-gradient(to bottom, var(--teal), var(--violet), var(--coral));
+  }
+  .timeline-item { position:relative; margin-bottom: 2.5rem; }
+  .timeline-dot {
+    position: absolute; left: -2.5rem; top: .3rem;
+    width: 1.5rem; height: 1.5rem; border-radius: 50%;
+    display: flex; align-items:center; justify-content:center;
+    font-size: .7rem; font-weight:700; color:white;
+  }
+  .timeline-age {
+    font-family: 'DM Mono', monospace;
+    font-size: .72rem; color: var(--gold);
+    font-weight: 500; margin-bottom: .35rem;
+    letter-spacing: .05em;
+  }
+  .timeline-h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 700;
+    margin-bottom: .5rem;
+  }
+  .timeline-p { font-size: .88rem; color: rgba(14,14,20,.6); line-height: 1.6; }
+
+  /* ── INFO CARDS ── */
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; margin: 2rem 0; }
+  .info-card {
+    background: white; border-radius: 14px;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--teal);
+  }
+  .info-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight:700; margin-bottom:.5rem;
+  }
+  .info-card p { font-size:.84rem; color:rgba(14,14,20,.6); line-height:1.6; }
+  .info-card-icon { font-size: 1.5rem; margin-bottom: .8rem; }
+
+  /* ── QUOTE BLOCK ── */
+  .quote-block {
+    background: var(--ink); color: var(--paper);
+    border-radius: 16px; padding: 2.5rem;
+    margin: 2rem 0; position: relative; overflow: hidden;
+  }
+  .quote-block::before {
+    content: '"'; font-family: 'Playfair Display', serif;
+    font-size: 8rem; position: absolute; top: -1.5rem; left: 1rem;
+    color: rgba(255,255,255,.05); line-height:1; pointer-events:none;
+  }
+  .quote-block blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; font-style: italic; line-height: 1.6;
+    margin-bottom: .8rem; position:relative; z-index:1;
+  }
+  .quote-block cite { font-size: .8rem; color: var(--gold); font-style:normal; font-weight:600; }
+
+  /* ── TABS ── */
+  .tabs-wrap { margin: 2rem 0; }
+  .tab-buttons { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .tab-btn {
+    padding: .5rem 1.2rem; border-radius: 99px;
+    border: 1.5px solid var(--border);
+    background: transparent; cursor: pointer;
+    font-size: .84rem; font-weight:500;
+    transition: all .2s; color: rgba(14,14,20,.6);
+  }
+  .tab-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .tab-content { display: none; animation: fadeIn .3s; }
+  .tab-content.active { display: block; }
+
+  /* ── ACCORDION ── */
+  .accordion { margin: 1.5rem 0; }
+  .acc-item {
+    border: 1px solid var(--border); border-radius: 12px;
+    margin-bottom: .6rem; overflow: hidden;
+  }
+  .acc-header {
+    padding: 1.1rem 1.4rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    background: white;
+    font-weight: 600; font-size: .92rem;
+    transition: background .2s;
+    user-select: none;
+  }
+  .acc-header:hover { background: var(--cream); }
+  .acc-chevron { font-size: .8rem; transition: transform .3s; }
+  .acc-item.open .acc-chevron { transform: rotate(180deg); }
+  .acc-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height .4s cubic-bezier(.4,0,.2,1);
+  }
+  .acc-item.open .acc-body { max-height: 600px; }
+  .acc-body-inner { padding: 1rem 1.4rem 1.4rem; font-size: .88rem; color: rgba(14,14,20,.65); line-height: 1.7; background: white; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-item { margin-bottom: 1.2rem; }
+  .progress-label { display: flex; justify-content: space-between; font-size: .84rem; font-weight:600; margin-bottom: .4rem; }
+  .progress-track { height: 8px; background: var(--cream); border-radius: 99px; overflow:hidden; }
+  .progress-fill { height: 100%; border-radius: 99px; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+
+  /* ── TIP BOX ── */
+  .tip-box {
+    background: #fff9ec; border: 1.5px solid var(--gold);
+    border-radius: 12px; padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0; display: flex; gap: .8rem; align-items: flex-start;
+  }
+  .tip-box .tip-icon { font-size: 1.3rem; flex-shrink:0; }
+  .tip-box p { font-size: .86rem; line-height: 1.6; color: rgba(14,14,20,.75); }
+  .tip-box strong { color: var(--ink); }
+
+  /* ── QUIZ ── */
+  .quiz-section { background: var(--ink); border-radius: 16px; padding: 2rem; margin: 2rem 0; color: var(--paper); }
+  .quiz-q { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-style: italic; margin-bottom: 1.2rem; }
+  .quiz-options { display: flex; flex-direction: column; gap: .6rem; }
+  .quiz-opt {
+    padding: .8rem 1.2rem; border-radius: 8px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    cursor: pointer; font-size: .88rem;
+    transition: all .2s; color: var(--paper);
+  }
+  .quiz-opt:hover { background: rgba(255,255,255,.12); }
+  .quiz-opt.correct { background: rgba(62,184,184,.25); border-color: var(--teal-light); }
+  .quiz-opt.wrong { background: rgba(224,92,58,.2); border-color: var(--coral); }
+  .quiz-feedback { margin-top: 1rem; font-size: .88rem; min-height: 1.5rem; color: var(--gold); font-style: italic; }
+
+  /* ── SECTION DIVIDERS ── */
+  .divider { height: 1px; background: var(--border); margin: 3rem 0; }
+  .h2-section {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem; font-weight: 800;
+    margin-bottom: 1.2rem;
+  }
+  .h3-section {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700;
+    margin-bottom: .7rem; margin-top: 1.5rem;
+  }
+  .body-text { font-size: .9rem; color: rgba(14,14,20,.65); line-height: 1.7; margin-bottom: 1rem; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { min-height: 300px; }
+    .hero-left { padding: 3rem 1.5rem; }
+    .stats-grid { grid-template-columns: repeat(2,1fr); }
+    .modules-section { padding: 3rem 1.5rem; }
+    .content-hero { padding: 2.5rem 1.5rem 2rem; }
+    .content-body { padding: 2rem 1.5rem; }
+    .brain-graphic { width: 240px; height: 240px; }
+    .brain-ring:nth-child(1) { width:230px;height:230px; }
+    .brain-ring:nth-child(2) { width:185px;height:185px; }
+    .brain-ring:nth-child(3) { width:140px;height:140px; }
+    .brain-ring:nth-child(4) { width:95px;height:95px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <h1>NeuroMente</h1>
+    <p>Neurociencia & Cognición</p>
+  </div>
+
+  <div class="nav-section">Inicio</div>
+  <div class="nav-item active" onclick="navigate('home',this)"><span class="nav-icon">🏠</span> Inicio</div>
+
+  <div class="nav-section">Desarrollo</div>
+  <div class="nav-item" onclick="navigate('desarrollo',this)"><span class="nav-icon">🧬</span> Desarrollo Cerebral</div>
+  <div class="nav-item" onclick="navigate('ninez',this)"><span class="nav-icon">🧒</span> Niñez (0–12 años)</div>
+  <div class="nav-item" onclick="navigate('adolescencia',this)"><span class="nav-icon">🧑</span> Adolescencia</div>
+  <div class="nav-item" onclick="navigate('adultez',this)"><span class="nav-icon">👨</span> Adultez & Madurez</div>
+
+  <div class="nav-section">Rendimiento</div>
+  <div class="nav-item" onclick="navigate('memoria',this)"><span class="nav-icon">🗃️</span> Memoria & Aprendizaje</div>
+  <div class="nav-item" onclick="navigate('atencion',this)"><span class="nav-icon">🎯</span> Atención & Foco</div>
+  <div class="nav-item" onclick="navigate('emocion',this)"><span class="nav-icon">❤️</span> Emoción & Cognición</div>
+  <div class="nav-item" onclick="navigate('sueno',this)"><span class="nav-icon">😴</span> Sueño & Rendimiento</div>
+
+  <div class="nav-section">Optimización</div>
+  <div class="nav-item" onclick="navigate('neuroplasticidad',this)"><span class="nav-icon">🔀</span> Neuroplasticidad</div>
+  <div class="nav-item" onclick="navigate('nutricion',this)"><span class="nav-icon">🥑</span> Nutrición Cerebral</div>
+  <div class="nav-item" onclick="navigate('ejercicio',this)"><span class="nav-icon">🏃</span> Ejercicio & Cerebro</div>
+  <div class="nav-item" onclick="navigate('quiz',this)"><span class="nav-icon">✏️</span> Test de Conocimiento <span class="nav-badge">Quiz</span></div>
+</nav>
+
+<div id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- TOPBAR -->
+<header id="topbar">
+  <button id="menu-btn" onclick="toggleSidebar()">☰</button>
+  <span class="topbar-title">NeuroMente</span>
+  <span class="topbar-breadcrumb" id="breadcrumb">Inicio</span>
+</header>
+
+<!-- MAIN -->
+<main id="main">
+
+  <!-- ══════════════ HOME ══════════════ -->
+  <div id="page-home" class="page active">
+    <div class="hero">
+      <div class="hero-left">
+        <span class="hero-tag">Neurociencia Aplicada</span>
+        <h1 class="hero-h1">
+          Descubre el poder de tu <em>cerebro</em>
+        </h1>
+        <p class="hero-sub">
+          Una guía completa sobre neurociencia y rendimiento cognitivo, desde el nacimiento hasta la adultez. Aprende cómo funciona, crece y se optimiza tu mente.
+        </p>
+        <div class="hero-cta-row">
+          <button class="btn-primary" onclick="navigate('desarrollo', document.querySelector('[onclick*=desarrollo]'))">Empezar a explorar</button>
+          <button class="btn-outline" onclick="navigate('quiz', document.querySelector('[onclick*=quiz]'))">Hacer el Quiz ✏️</button>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="brain-graphic">
+          <div class="brain-ring"></div>
+          <div class="brain-ring"></div>
+          <div class="brain-ring"></div>
+          <div class="brain-ring"></div>
+          <div class="brain-center">🧠</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num">86B</div>
+        <div class="stat-label">Neuronas en el cerebro humano adulto</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">25</div>
+        <div class="stat-label">Años hasta madurez total del córtex prefrontal</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">100T</div>
+        <div class="stat-label">Conexiones sinápticas posibles en el cerebro</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">70%</div>
+        <div class="stat-label">Del cerebro adulto se forma antes de los 6 años</div>
+      </div>
+    </div>
+
+    <div class="modules-section">
+      <div class="section-header">
+        <div class="section-tag">Todos los módulos</div>
+        <h2 class="section-h2">¿Qué quieres explorar hoy?</h2>
+        <p class="section-sub">Navega por cada sección para aprender en profundidad</p>
+      </div>
+      <div class="modules-grid">
+        <div class="module-card" onclick="navigate('desarrollo', null)">
+          <div class="module-card-top" style="background:linear-gradient(135deg,#2a8a8a22,#2a8a8a44)">🧬</div>
+          <div class="module-card-body">
+            <div class="module-card-tag" style="color:var(--teal)">Fundamentos</div>
+            <h3>Desarrollo Cerebral</h3>
+            <p>Cómo se construye el cerebro desde el embrión hasta la adultez.</p>
+          </div>
+          <div class="module-card-footer"><span>8 min de lectura</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="module-card" onclick="navigate('ninez', null)">
+          <div class="module-card-top" style="background:linear-gradient(135deg,#e05c3a22,#e05c3a44)">🧒</div>
+          <div class="module-card-body">
+            <div class="module-card-tag" style="color:var(--coral)">0–12 años</div>
+            <h3>Niñez</h3>
+            <p>Ventanas críticas de aprendizaje, lenguaje y desarrollo socioemocional.</p>
+          </div>
+          <div class="module-card-footer"><span>10 min de lectura</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="module-card" onclick="navigate('adolescencia', null)">
+          <div class="module-card-top" style="background:linear-gradient(135deg,#5c3d8f22,#5c3d8f44)">🧑</div>
+          <div class="module-card-body">
+            <div class="module-card-tag" style="color:var(--violet)">12–24 años</div>
+            <h3>Adolescencia</h3>
+            <p>Poda sináptica, riesgo, recompensa y el cerebro en construcción.</p>
+          </div>
+          <div class="module-card-footer"><span>9 min de lectura</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="module-card" onclick="navigate('adultez', null)">
+          <div class="module-card-top" style="background:linear-gradient(135deg,#c9a84c22,#c9a84c44)">👨</div>
+          <div class="module-card-body">
+            <div class="module-card-tag" style="color:var(--gold)">25+ años</div>
+            <h3>Adultez & Madurez</h3>
+            <p>Mantenimiento cognitivo, envejecimiento y reserva cerebral.</p>
+          </div>
+          <div class="module-card-footer"><span>11 min de lectura</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="module-card" onclick="navigate('memoria', null)">
+          <div class="module-card-top" style="background:linear-gradient(135deg,#3a6ea822,#3a6ea844)">🗃️</div>
+          <div class="module-card-body">
+            <div class="module-card-tag" style="color:var(--sky)">Cognición</div>
+            <h3>Memoria & Aprendizaje</h3>
+            <p>Tipos de memoria, consolidación y estrategias para aprender mejor.</p>
+          </div>
+          <div class="module-card-footer"><span>12 min de lectura</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="module-card" onclick="navigate('atencion', null)">
+          <div class="module-card-top" style="background:linear-gradient(135deg,#5a7a5a22,#5a7a5a44)">🎯</div>
+          <div class="module-card-body">
+            <div class="module-card-tag" style="color:var(--sage)">Foco</div>
+            <h3>Atención & Foco</h3>
+            <p>Redes atencionales, TDAH, y técnicas para mejorar la concentración.</p>
+          </div>
+          <div class="module-card-footer"><span>9 min de lectura</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="module-card" onclick="navigate('neuroplasticidad', null)">
+          <div class="module-card-top" style="background:linear-gradient(135deg,#c45c7a22,#c45c7a44)">🔀</div>
+          <div class="module-card-body">
+            <div class="module-card-tag" style="color:var(--rose)">Optimización</div>
+            <h3>Neuroplasticidad</h3>
+            <p>Cómo el cerebro se rewire y cómo aprovecharlo a cualquier edad.</p>
+          </div>
+          <div class="module-card-footer"><span>10 min de lectura</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="module-card" onclick="navigate('sueno', null)">
+          <div class="module-card-top" style="background:linear-gradient(135deg,#2a4a8a22,#2a4a8a44)">😴</div>
+          <div class="module-card-body">
+            <div class="module-card-tag" style="color:#3a5ea8">Recuperación</div>
+            <h3>Sueño & Rendimiento</h3>
+            <p>Por qué dormir bien es la herramienta cognitiva más poderosa.</p>
+          </div>
+          <div class="module-card-footer"><span>8 min de lectura</span><span class="card-arrow">→</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ DESARROLLO CEREBRAL ══════════════ -->
+  <div id="page-desarrollo" class="page">
+    <div class="content-hero" data-emoji="🧬" style="border-left: 5px solid var(--teal);">
+      <div class="content-tag" style="color:var(--teal)">Fundamentos de Neurociencia</div>
+      <h1 class="content-h1">Desarrollo Cerebral: De Célula a Mente</h1>
+      <p class="content-intro">El cerebro humano es el sistema más complejo del universo conocido. Su construcción comienza en el embrión y continúa hasta los 25 años, siguiendo un programa genético exquisitamente modulado por la experiencia.</p>
+    </div>
+    <div class="content-body">
+      <h2 class="h2-section">Fases del Desarrollo Neurológico</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--teal)">1</div>
+          <div class="timeline-age">Semanas 3–8 del embrión</div>
+          <h3 class="timeline-h3">Neurulación y Proliferación</h3>
+          <p class="timeline-p">Se generan ~250.000 neuronas por minuto. Las células madre neuronales proliferan masivamente en el tubo neural. Los errores en esta etapa pueden provocar defectos del tubo neural.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--violet)">2</div>
+          <div class="timeline-age">Meses 3–7 prenatales</div>
+          <h3 class="timeline-h3">Migración y Diferenciación</h3>
+          <p class="timeline-p">Las neuronas migran a sus posiciones definitivas guiadas por células gliales radiales. Comienzan a especializarse según su ubicación cortical.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--coral)">3</div>
+          <div class="timeline-age">Nacimiento – 3 años</div>
+          <h3 class="timeline-h3">Sinaptogénesis Explosiva</h3>
+          <p class="timeline-p">Cada neurona puede formar hasta 15.000 conexiones. El cerebro crece al 80% del tamaño adulto. Las experiencias moldean qué sinapsis se refuerzan.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--gold)">4</div>
+          <div class="timeline-age">3–12 años</div>
+          <h3 class="timeline-h3">Poda Sináptica Selectiva</h3>
+          <p class="timeline-p">Se eliminan conexiones poco usadas (use it or lose it). La mielinización aumenta la velocidad de conducción nerviosa. Ventanas críticas para lenguaje, música y habilidades sociales.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--rose)">5</div>
+          <div class="timeline-age">12–25 años</div>
+          <h3 class="timeline-h3">Maduración del Córtex Prefrontal</h3>
+          <p class="timeline-p">La región responsable de control ejecutivo, planificación y toma de decisiones madura al último. Esto explica muchos comportamientos adolescentes.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="h2-section">Estructuras Clave del Cerebro</h2>
+      <div class="info-grid">
+        <div class="info-card" style="border-left-color:var(--teal)">
+          <div class="info-card-icon">🌊</div>
+          <h4>Córtex Prefrontal</h4>
+          <p>Centro de control ejecutivo: planificación, toma de decisiones, inhibición de impulsos. Madura a los ~25 años.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--coral)">
+          <div class="info-card-icon">🔥</div>
+          <h4>Amígdala</h4>
+          <p>Procesamiento emocional, especialmente miedo y amenaza. Hiperreactiva en adolescentes. Involucrada en formación de memorias emocionales.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--violet)">
+          <div class="info-card-icon">🐴</div>
+          <h4>Hipocampo</h4>
+          <p>Esencial para la formación de nuevas memorias explícitas y navegación espacial. Uno de los pocos sitios de neurogénesis adulta.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--gold)">
+          <div class="info-card-icon">🎯</div>
+          <h4>Ganglios Basales</h4>
+          <p>Aprendizaje de hábitos, recompensa y control motor. Ricos en dopamina. Clave para automatizar comportamientos.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--sage)">
+          <div class="info-card-icon">🌐</div>
+          <h4>Cerebelo</h4>
+          <p>Coordinación motora y cognitiva. Contiene más neuronas que el resto del cerebro junto. Rol creciente en funciones cognitivas.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--sky)">
+          <div class="info-card-icon">⚡</div>
+          <h4>Tálamo</h4>
+          <p>Estación de relevo sensorial. Regula la consciencia y el sueño. Conecta la corteza con estructuras subcorticales.</p>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        <blockquote>El cerebro no es un vaso que llenar, sino una antorcha que encender. No naces con una mente fija, la construyes a través de la experiencia.</blockquote>
+        <cite>— Principio de Neuroplasticidad Hebbiana</cite>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ NIÑEZ ══════════════ -->
+  <div id="page-ninez" class="page">
+    <div class="content-hero" data-emoji="🧒" style="border-left: 5px solid var(--coral);">
+      <div class="content-tag" style="color:var(--coral)">0 a 12 años</div>
+      <h1 class="content-h1">El Cerebro en la Niñez: Ventanas de Oportunidad</h1>
+      <p class="content-intro">Los primeros 12 años son el período de mayor plasticidad cerebral de la vida. Las experiencias, el juego, el lenguaje y las relaciones afectivas esculpen literalmente la arquitectura neuronal.</p>
+    </div>
+    <div class="content-body">
+
+      <div class="tabs-wrap">
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="showTab('ninez','0-2')">0–2 años</button>
+          <button class="tab-btn" onclick="showTab('ninez','3-6')">3–6 años</button>
+          <button class="tab-btn" onclick="showTab('ninez','7-12')">7–12 años</button>
+        </div>
+        <div id="tab-ninez-0-2" class="tab-content active">
+          <h3 class="h3-section">El Cerebro del Bebé (0–2 años)</h3>
+          <p class="body-text">El cerebro de un recién nacido tiene ~100 mil millones de neuronas, pero pocas conexiones. Durante los primeros 2 años se forman <strong>1 millón de conexiones por segundo</strong>. El apego seguro con cuidadores es el predictor más potente de salud mental futura.</p>
+          <div class="info-grid">
+            <div class="info-card" style="border-left-color:var(--coral)">
+              <div class="info-card-icon">👁️</div>
+              <h4>Sistema Visual</h4>
+              <p>Madura primero. A los 6 meses ya tienen percepción de profundidad. La estimulación visual rica acelera el desarrollo cortical visual.</p>
+            </div>
+            <div class="info-card" style="border-left-color:var(--teal)">
+              <div class="info-card-icon">👂</div>
+              <h4>Lenguaje Prenatal</h4>
+              <p>Los bebés reconocen la voz materna desde el útero. A los 6 meses discriminan todos los fonemas del mundo. A los 12, solo los de su idioma nativo.</p>
+            </div>
+            <div class="info-card" style="border-left-color:var(--violet)">
+              <div class="info-card-icon">💞</div>
+              <h4>Apego y Cortisol</h4>
+              <p>El estrés crónico eleva el cortisol, dañando el hipocampo en desarrollo. El apego seguro actúa como regulador neuroendocrino protector.</p>
+            </div>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <p><strong>Consejo práctico:</strong> El "serve and return" (el adulto responde a las vocalizaciones del bebé) es el ejercicio de neurodesarrollo más poderoso en esta etapa. Construye literalmente la arquitectura cerebral.</p>
+          </div>
+        </div>
+        <div id="tab-ninez-3-6" class="tab-content">
+          <h3 class="h3-section">La Explosión del Lenguaje y el Juego (3–6 años)</h3>
+          <p class="body-text">Esta etapa es la ventana crítica para el lenguaje. Los niños aprenden entre 5 y 10 palabras nuevas por día. El juego simbólico activa el córtex prefrontal, el hipocampo y el sistema límbico simultáneamente.</p>
+          <div class="accordion" id="acc-ninez">
+            <div class="acc-item">
+              <div class="acc-header" onclick="toggleAcc(this)"><span>🗣️ Desarrollo del Lenguaje</span><span class="acc-chevron">▾</span></div>
+              <div class="acc-body"><div class="acc-body-inner">El área de Broca (producción del habla) y el área de Wernicke (comprensión) alcanzan niveles críticos de mielinización. Los niños que escuchan más vocabulario desarrollan cerebros lingüísticamente más ricos. La diferencia entre hogares puede ser de 30 millones de palabras a los 3 años (Hart & Risley, 1995).</div></div>
+            </div>
+            <div class="acc-item">
+              <div class="acc-header" onclick="toggleAcc(this)"><span>🎮 El Poder del Juego</span><span class="acc-chevron">▾</span></div>
+              <div class="acc-body"><div class="acc-body-inner">El juego libre activa el modo por defecto del cerebro, esencial para creatividad y teoría de la mente. El juego de roles desarrolla la función ejecutiva mejor que cualquier programa académico formal a esta edad. Los estudios muestran que niños con más juego libre tienen mayor autorregulación emocional.</div></div>
+            </div>
+            <div class="acc-item">
+              <div class="acc-header" onclick="toggleAcc(this)"><span>🎵 Música y Matemáticas</span><span class="acc-chevron">▾</span></div>
+              <div class="acc-body"><div class="acc-body-inner">El entrenamiento musical antes de los 7 años produce cambios estructurales en el cuerpo calloso y el córtex auditivo. Estos cambios correlacionan con mejor desempeño matemático, lingüístico y ejecutivo a lo largo de la vida.</div></div>
+            </div>
+          </div>
+        </div>
+        <div id="tab-ninez-7-12" class="tab-content">
+          <h3 class="h3-section">Consolidación Cognitiva (7–12 años)</h3>
+          <p class="body-text">El pensamiento lógico concreto emerge (Piaget). La mielinización del córtex prefrontal mejora la función ejecutiva. Es el período ideal para establecer hábitos de estudio, práctica de habilidades y regulación emocional.</p>
+          <div class="info-grid">
+            <div class="info-card" style="border-left-color:var(--sage)">
+              <div class="info-card-icon">📚</div>
+              <h4>Función Ejecutiva</h4>
+              <p>Memoria de trabajo, control inhibitorio y flexibilidad cognitiva alcanzan niveles funcionales adultos parcialmente. El desafío cognitivo es el mejor ejercicio.</p>
+            </div>
+            <div class="info-card" style="border-left-color:var(--sky)">
+              <div class="info-card-icon">🤝</div>
+              <h4>Inteligencia Social</h4>
+              <p>Los juegos cooperativos desarrollan teoría de la mente y empatía neurológica. Las relaciones de pares moldean el circuito de recompensa social.</p>
+            </div>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">🎯</span>
+            <p><strong>Para padres y educadores:</strong> El feedback específico ("hiciste bien los pasos del problema") es neurológicamente superior al genérico ("eres inteligente"). Activa la mentalidad de crecimiento (Carol Dweck) y refuerza conexiones en el circuito de aprendizaje por error.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ ADOLESCENCIA ══════════════ -->
+  <div id="page-adolescencia" class="page">
+    <div class="content-hero" data-emoji="🧑" style="border-left: 5px solid var(--violet);">
+      <div class="content-tag" style="color:var(--violet)">12 a 24 años</div>
+      <h1 class="content-h1">El Cerebro Adolescente: Riesgo, Recompensa y Revolución</h1>
+      <p class="content-intro">La adolescencia no es un defecto del desarrollo, es una adaptación evolutiva brillante. El cerebro adolescente está diseñado para explorar, arriesgar y conectar socialmente.</p>
+    </div>
+    <div class="content-body">
+      <h2 class="h2-section">El Desequilibrio Neurológico Adolescente</h2>
+      <p class="body-text">El sistema límbico (emociones, recompensa) madura antes que el córtex prefrontal (control ejecutivo). Esto crea una "brecha de madurez" que explica el comportamiento de riesgo adolescente.</p>
+      
+      <div class="info-grid">
+        <div class="info-card" style="border-left-color:var(--violet)">
+          <div class="info-card-icon">⚡</div>
+          <h4>Sistema de Recompensa Hipersensible</h4>
+          <p>Los adolescentes liberan más dopamina ante estímulos novedosos. Buscan intensidad para alcanzar el umbral de recompensa que tienen en reposo más alto.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--coral)">
+          <div class="info-card-icon">👥</div>
+          <h4>Hipersensibilidad Social</h4>
+          <p>La presencia de pares activa el nucleus accumbens de forma exagerada. La exclusión social duele neurológicamente como el dolor físico.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--teal)">
+          <div class="info-card-icon">🌙</div>
+          <h4>Cronobiología Cambiada</h4>
+          <p>La melatonina se secreta 2 horas después en adolescentes. No es pereza; es biología. El inicio tardío de clases mejora el rendimiento académico significativamente.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--gold)">
+          <div class="info-card-icon">✂️</div>
+          <h4>Segunda Poda Sináptica</h4>
+          <p>Se eliminan hasta el 50% de las sinapsis en el córtex prefrontal. Lo que practicas sobrevive; lo que no, se poda. Las decisiones de vida tienen peso neurológico real.</p>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        <blockquote>El cerebro adolescente no está roto. Está en construcción activa. Y las experiencias de esta etapa dejan huellas neurológicas durables.</blockquote>
+        <cite>— Dr. Sarah-Jayne Blakemore, Neurocientífica del University College London</cite>
+      </div>
+
+      <div class="divider"></div>
+      <h2 class="h2-section">Implicaciones Prácticas</h2>
+      <div class="accordion">
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>🎓 Estrategias de Aprendizaje Efectivo</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">Los adolescentes aprenden mejor con relevancia emocional y social. Conectar el contenido a experiencias personales activa el hipocampo más eficientemente. El aprendizaje colaborativo activa circuitos de recompensa social que potencian la retención.</div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>📱 Tecnología y Dopamina</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">Las redes sociales explotan el sistema de recompensa adolescente con ciclos de dopamina irregulares (variable ratio reinforcement). Los likes activan el mismo circuito que la aprobación social cara a cara, pero a una intensidad artificial. La exposición excesiva puede calibrar el umbral de recompensa hacia arriba.</div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>🧘 Regulación Emocional</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">Técnicas como el mindfulness fortalecen la conectividad prefrontal-amígdala, el circuito exacto que el adolescente tiene menos desarrollado. Enseñar regulación emocional en la adolescencia tiene retornos cognitivos a largo plazo.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ ADULTEZ ══════════════ -->
+  <div id="page-adultez" class="page">
+    <div class="content-hero" data-emoji="👨" style="border-left: 5px solid var(--gold);">
+      <div class="content-tag" style="color:var(--gold)">25 años en adelante</div>
+      <h1 class="content-h1">Adultez: El Cerebro en su Plenitud y el Reto del Envejecimiento</h1>
+      <p class="content-intro">A los 25 el cerebro alcanza su madurez. Pero el verdadero desafío comienza: mantener y optimizar la función cognitiva durante décadas. La ciencia muestra que mucho está en nuestras manos.</p>
+    </div>
+    <div class="content-body">
+      <h2 class="h2-section">Curvas del Rendimiento Cognitivo</h2>
+      <p class="body-text">No todo envejece igual. Algunas capacidades alcanzan su pico a los 25; otras, a los 50 o 70.</p>
+
+      <div style="background:white;border-radius:14px;padding:2rem;border:1px solid var(--border);margin:1.5rem 0;">
+        <h3 class="h3-section">Pico de Funciones Cognitivas por Edad</h3>
+        <div class="progress-item">
+          <div class="progress-label"><span>Velocidad de Procesamiento</span><span style="color:var(--teal)">Pico: 18–25 años</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:95%;background:var(--teal)" data-width="95"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Memoria de Trabajo</span><span style="color:var(--coral)">Pico: 25–35 años</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:85%;background:var(--coral)" data-width="85"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Control Emocional</span><span style="color:var(--violet)">Pico: 40–50 años</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:75%;background:var(--violet)" data-width="75"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Inteligencia Cristalizada</span><span style="color:var(--gold)">Pico: 60–70 años</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:60%;background:var(--gold)" data-width="60"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Sabiduría y Síntesis</span><span style="color:var(--sage)">Pico: 70+ años</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:50%;background:var(--sage)" data-width="50"></div></div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <h2 class="h2-section">Reserva Cognitiva: Tu Seguro Cerebral</h2>
+      <p class="body-text">La reserva cognitiva es la capacidad del cerebro para tolerar daño neurológico sin manifestar síntomas clínicos. Se construye durante toda la vida y es el principal factor protector contra la demencia.</p>
+      <div class="info-grid">
+        <div class="info-card" style="border-left-color:var(--teal)">
+          <div class="info-card-icon">📖</div>
+          <h4>Educación Continua</h4>
+          <p>Cada año de educación reduce el riesgo de demencia en ~7%. El aprendizaje de nuevas habilidades complejas aumenta la densidad sináptica.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--coral)">
+          <div class="info-card-icon">🏃</div>
+          <h4>Ejercicio Aeróbico</h4>
+          <p>30 min de cardio aumentan el volumen del hipocampo en 2% por año. El BDNF (fertilizante cerebral) aumenta hasta 3x con ejercicio regular.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--violet)">
+          <div class="info-card-icon">🤝</div>
+          <h4>Red Social Activa</h4>
+          <p>El aislamiento social acelera el deterioro cognitivo equivalente a fumar 15 cigarrillos diarios. Las relaciones significativas protegen el cerebro.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--gold)">
+          <div class="info-card-icon">🎯</div>
+          <h4>Propósito de Vida</h4>
+          <p>Tener un "ikigai" reduce el riesgo de Alzheimer en 2.4x. El propósito activa sistemas de recompensa y reduce la inflamación crónica cerebral.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ MEMORIA ══════════════ -->
+  <div id="page-memoria" class="page">
+    <div class="content-hero" data-emoji="🗃️" style="border-left: 5px solid var(--sky);">
+      <div class="content-tag" style="color:var(--sky)">Cognición Aplicada</div>
+      <h1 class="content-h1">Memoria & Aprendizaje: Cómo el Cerebro Retiene</h1>
+      <p class="content-intro">La memoria no es como una grabadora. Es un proceso reconstructivo, activo y altamente maleable. Entender sus mecanismos te permite aprender hasta 10 veces más eficientemente.</p>
+    </div>
+    <div class="content-body">
+      <h2 class="h2-section">Tipos de Memoria</h2>
+      <div class="info-grid">
+        <div class="info-card" style="border-left-color:var(--sky)">
+          <div class="info-card-icon">⚡</div>
+          <h4>Memoria de Trabajo</h4>
+          <p>Almacena ~7 ítems durante segundos. "Pizarrón mental". Limitada pero crucial para razonamiento. Mejora con práctica y gestión de carga cognitiva.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--teal)">
+          <div class="info-card-icon">📅</div>
+          <h4>Memoria Episódica</h4>
+          <p>"Viajes mentales al pasado". Almacena eventos con contexto temporal y emocional. El hipocampo es indispensable para consolidarla.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--violet)">
+          <div class="info-card-icon">📚</div>
+          <h4>Memoria Semántica</h4>
+          <p>Conocimiento general del mundo, conceptos y hechos sin contexto temporal. Se distribuye por el neocórtex y es altamente resistente al daño.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--coral)">
+          <div class="info-card-icon">🚴</div>
+          <h4>Memoria Procedimental</h4>
+          <p>Habilidades motoras y hábitos automatizados. Ganglios basales y cerebelo. No requiere consciencia para ejecutarse.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <h2 class="h2-section">Estrategias Respaldadas por Neurociencia</h2>
+      <div class="accordion">
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>🔁 Práctica de Recuperación (Testing Effect)</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">Recuperar información activamente es 2-3x más efectivo que releer. Cada vez que recuperas un recuerdo, lo reconsolidás y fortalecés la traza de memoria. Las flashcards, autotests y el método Feynman son implementaciones de este principio.</div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>📆 Repetición Espaciada (Spaced Repetition)</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">Distribuir las sesiones de estudio con intervalos crecientes reduce el olvido exponencialmente. La curva de olvido de Ebbinghaus muestra que olvidamos el 70% en 24 horas sin repaso. Herramientas como Anki implementan algoritmos SM-2 para optimizar los intervalos.</div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>😴 Consolidación Durante el Sueño</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">Durante el sueño profundo, el hipocampo "reproduce" las experiencias del día al neocórtex para consolidarlas en memoria a largo plazo. Dormir después de estudiar mejora la retención hasta un 40%. Las siestas de 20 min post-estudio tienen efectos similares.</div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>🗺️ Elaboración y Codificación Profunda</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">Conectar nueva información a conocimiento existente activa más regiones del hipocampo y del neocórtex prefrontal. Los mapas mentales, las analogías y la técnica de elaboración ("¿Por qué es así? ¿Cómo se relaciona con X?") producen codificaciones más ricas y duraderas.</div></div>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        <blockquote>No estudiamos para el examen; estudiamos para el olvido. El aprendizaje real ocurre en la brecha entre el olvido y el recuerdo.</blockquote>
+        <cite>— Robert Bjork, Psicólogo Cognitivo UCLA</cite>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ ATENCIÓN ══════════════ -->
+  <div id="page-atencion" class="page">
+    <div class="content-hero" data-emoji="🎯" style="border-left: 5px solid var(--sage);">
+      <div class="content-tag" style="color:var(--sage)">Foco y Concentración</div>
+      <h1 class="content-h1">Atención & Foco: Tu Recurso Más Valioso</h1>
+      <p class="content-intro">La atención es el cuello de botella de toda cognición. No podemos aprender, recordar ni crear sin ella. Entender sus mecanismos es el primer paso para dominarla.</p>
+    </div>
+    <div class="content-body">
+      <h2 class="h2-section">Las Tres Redes Atencionales (Posner)</h2>
+      <div class="info-grid">
+        <div class="info-card" style="border-left-color:var(--coral)">
+          <div class="info-card-icon">🚨</div>
+          <h4>Red de Alerta</h4>
+          <p>Mantiene un estado de vigilancia general. Regula el arousal. Norepinefrina es el neurotransmisor clave. El sueño y el ejercicio la optimizan.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--gold)">
+          <div class="info-card-icon">🧭</div>
+          <h4>Red de Orientación</h4>
+          <p>Selecciona y dirige la atención hacia estímulos relevantes. Involucra el lóbulo parietal. Se ve comprometida por la distracción digital.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--violet)">
+          <div class="info-card-icon">🎮</div>
+          <h4>Red Ejecutiva</h4>
+          <p>Control intencional del foco. Córtex prefrontal y cingulado anterior. Es la que entrenamos con meditación y práctica deliberada.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <h2 class="h2-section">Técnicas para Mejorar la Atención</h2>
+      <div class="accordion">
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>🧘 Meditación de Atención Focalizada</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">8 semanas de práctica de mindfulness (20 min/día) producen cambios estructurales en el córtex cingulado anterior y el córtex prefrontal. Aumenta la densidad de materia gris en regiones atencionales y reduce la actividad de la amígdala. El efecto es acumulativo y visible desde las primeras semanas.</div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>⏱️ Técnica Pomodoro Neurológica</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">La atención sostenida sigue ciclos ultradianos de ~90 minutos. Trabajar en bloques de 25–50 min con descansos de 5–10 min respeta estos ritmos biológicos. El descanso activa la Red de Modo por Defecto, que procesa información de forma no consciente y genera insights.</div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>📵 Gestión del Entorno Digital</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">Una sola notificación interrumpe el flujo cognitivo durante 23 minutos en promedio (Gloria Mark, UCI). El teléfono visible en la mesa reduce la capacidad cognitiva aunque no lo usemos (Ward et al., 2017). El "deep work" requiere entornos libres de distractores digitales.</div></div>
+        </div>
+      </div>
+      <div class="tip-box">
+        <span class="tip-icon">🧠</span>
+        <p><strong>Dato clave:</strong> El multitasking no existe neurológicamente. Lo que hacemos es cambiar rápidamente entre tareas (task-switching), y cada cambio consume glucosa y tiempo de reorientación. Reduce el rendimiento hasta un 40%.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ EMOCIÓN ══════════════ -->
+  <div id="page-emocion" class="page">
+    <div class="content-hero" data-emoji="❤️" style="border-left: 5px solid var(--rose);">
+      <div class="content-tag" style="color:var(--rose)">Neurología Emocional</div>
+      <h1 class="content-h1">Emoción & Cognición: Aliadas, No Enemigas</h1>
+      <p class="content-intro">La neurociencia moderna rechaza la dicotomía razón-emoción. Las emociones no bloquean el pensamiento; lo orientan, lo amplifican y lo hacen posible.</p>
+    </div>
+    <div class="content-body">
+      <h2 class="h2-section">El Marcador Somático (Damasio)</h2>
+      <p class="body-text">Antonio Damasio descubrió que pacientes con daño en el córtex prefrontal ventromedial tenían IQ intacto pero tomaban pésimas decisiones. Esto reveló que las emociones son indispensables para decidir: actúan como "marcadores" que guían hacia opciones beneficiosas.</p>
+      
+      <div class="info-grid">
+        <div class="info-card" style="border-left-color:var(--rose)">
+          <div class="info-card-icon">😃</div>
+          <h4>Emociones Positivas</h4>
+          <p>Amplían el repertorio de pensamiento-acción (Fredrickson). Mejoran la memoria, la creatividad y la cognición flexible. La dopamina facilita el aprendizaje por recompensa.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--coral)">
+          <div class="info-card-icon">😰</div>
+          <h4>Estrés Agudo</h4>
+          <p>El cortisol en dosis bajas mejora el foco y la memoria. En exceso, daña el hipocampo y bloquea el córtex prefrontal. El estrés crónico es el mayor enemigo cognitivo.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--violet)">
+          <div class="info-card-icon">🌊</div>
+          <h4>Regulación Emocional</h4>
+          <p>La reevaluación cognitiva (cambiar el significado de un evento) es más eficiente que la supresión. Activa el córtex prefrontal y reduce la amígdala a largo plazo.</p>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        <blockquote>No somos seres racionales que sienten; somos seres emocionales que piensan. Las emociones son el sustrato del que emerge la razón.</blockquote>
+        <cite>— Antonio Damasio, "El Error de Descartes" (1994)</cite>
+      </div>
+
+      <div class="tip-box">
+        <span class="tip-icon">❤️</span>
+        <p><strong>Herramienta práctica:</strong> El "etiquetado afectivo" (poner nombre a la emoción que sentís: "siento ansiedad") reduce la activación de la amígdala en ~50%. Simplemente nombrar la emoción activa el córtex prefrontal izquierdo y regula la respuesta.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SUEÑO ══════════════ -->
+  <div id="page-sueno" class="page">
+    <div class="content-hero" data-emoji="😴" style="border-left: 5px solid #3a5ea8;">
+      <div class="content-tag" style="color:#3a5ea8">Recuperación Cognitiva</div>
+      <h1 class="content-h1">Sueño: La Herramienta de Performance #1</h1>
+      <p class="content-intro">No hay ninguna función cognitiva que no se vea degradada por la falta de sueño. Y ninguna píldora, café o técnica puede compensar lo que el sueño ofrece de manera gratuita.</p>
+    </div>
+    <div class="content-body">
+      <h2 class="h2-section">Qué ocurre en el cerebro mientras dormís</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:#3a5ea8">N1</div>
+          <div class="timeline-age">Sueño ligero (5–10 min)</div>
+          <h3 class="timeline-h3">Transición a la inconsciencia</h3>
+          <p class="timeline-p">Actividad alfa y theta. Fácil despertar. Aparecen las sacudidas hipnagógicas (sensación de caer).</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--violet)">N2</div>
+          <div class="timeline-age">Sueño moderado (20 min)</div>
+          <h3 class="timeline-h3">Husos de Sueño y Consolidación</h3>
+          <p class="timeline-p">Los husos de sueño (sigma waves) transfieren información del hipocampo al neocórtex. Esenciales para la memoria procedimental y declarativa.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--teal)">N3</div>
+          <div class="timeline-age">Sueño profundo (ondas delta)</div>
+          <h3 class="timeline-h3">Limpieza Glinfática y Reparación</h3>
+          <p class="timeline-p">El sistema glinfático elimina beta-amiloide y tau (proteínas asociadas al Alzheimer). La hormona del crecimiento se secreta. Es el sueño más reparador.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--coral)">REM</div>
+          <div class="timeline-age">Movimiento ocular rápido</div>
+          <h3 class="timeline-h3">Creatividad y Memoria Emocional</h3>
+          <p class="timeline-p">El cerebro integra memorias de forma creativa. Los sueños. Norepinefrina está ausente, permitiendo procesar memorias sin carga emocional (terapia nocturna).</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="info-grid">
+        <div class="info-card" style="border-left-color:var(--coral)">
+          <div class="info-card-icon">⚠️</div>
+          <h4>Privación de Sueño</h4>
+          <p>17h sin dormir = 0.05% de alcoholemia cognitiva. 24h = deficiencia grave. Una semana de 6h/noche produce déficits cognitivos severos que no se perciben subjetivamente.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--teal)">
+          <div class="info-card-icon">✅</div>
+          <h4>Higiene del Sueño</h4>
+          <p>Horario constante, oscuridad total, 18–20°C de temperatura, sin pantallas 60 min antes, sin cafeína después de las 14h. La luz azul suprime la melatonina 2–3h.</p>
+        </div>
+      </div>
+      <div class="tip-box">
+        <span class="tip-icon">😴</span>
+        <p><strong>El poder de la "siesta del genio":</strong> Una siesta de 90 min incluye un ciclo completo de sueño. Una de 20 min (antes de caer en sueño profundo) mejora el estado de alerta sin inercia del sueño. El café antes de la siesta hace efecto justo al despertar.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ NEUROPLASTICIDAD ══════════════ -->
+  <div id="page-neuroplasticidad" class="page">
+    <div class="content-hero" data-emoji="🔀" style="border-left: 5px solid var(--rose);">
+      <div class="content-tag" style="color:var(--rose)">Optimización Cerebral</div>
+      <h1 class="content-h1">Neuroplasticidad: El Cerebro Que Se Rewires a Sí Mismo</h1>
+      <p class="content-intro">Durante siglos se creyó que el cerebro adulto era fijo. Hoy sabemos que se reorganiza constantemente en respuesta a la experiencia, a cualquier edad.</p>
+    </div>
+    <div class="content-body">
+      <h2 class="h2-section">Principios de Hebb y LTP</h2>
+      <p class="body-text">"Neurons that fire together, wire together." La Potenciación a Largo Plazo (LTP) es el mecanismo celular del aprendizaje: la repetida activación de una sinapsis la fortalece molecular y estructuralmente.</p>
+
+      <div class="info-grid">
+        <div class="info-card" style="border-left-color:var(--rose)">
+          <div class="info-card-icon">🔗</div>
+          <h4>Plasticidad Sináptica</h4>
+          <p>Cambios en la fuerza de conexiones existentes. Ocurre en horas o días. Base del aprendizaje rápido y la habituación.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--teal)">
+          <div class="info-card-icon">🌱</div>
+          <h4>Neurogénesis</h4>
+          <p>Formación de nuevas neuronas en el hipocampo adulto. El ejercicio aeróbico es el estimulante más potente de BDNF, el factor de crecimiento neuronal.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--violet)">
+          <div class="info-card-icon">🗺️</div>
+          <h4>Reorganización Cortical</h4>
+          <p>Áreas del cerebro pueden tomar funciones de regiones dañadas o expandirse ante práctica intensa. Los taxistas de Londres tienen hipocampos más grandes.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <h2 class="h2-section">Cómo Activar la Neuroplasticidad</h2>
+      <div class="accordion">
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>🎯 Práctica Deliberada</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">La repetición mecánica no produce plasticidad; la práctica en el límite de la habilidad (zona de desarrollo próximo) sí. El foco intencional, la retroalimentación inmediata y el desafío ajustado son los tres ingredientes del aprendizaje que cambia el cerebro. Anders Ericsson demostró que 10.000 horas de práctica deliberada transforman el cerebro de expertos.</div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>💊 Neuromoduladores Naturales</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">La dopamina (curiosidad, novedad), la norepinefrina (alerta, urgencia) y la acetilcolina (foco, atención) crean una "ventana de plasticidad" cuando están elevadas simultáneamente. El estado óptimo para aprender es: alta motivación + foco intenso + ligero estrés positivo. Las experiencias emocionalmente intensas se graban con mayor fidelidad neurológica.</div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>🌙 Consolidación Post-Aprendizaje</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">La plasticidad no ocurre solo durante el aprendizaje. El sueño y el descanso son cuando se consolidan los cambios estructurales. Los períodos de no-hacer después de aprender (NSDR: Non-Sleep Deep Rest) aceleran la consolidación plástica hasta 2x en estudios recientes de Huberman Lab.</div></div>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        <blockquote>El cerebro que aprendes a cambiar, te cambia a ti. La neuroplasticidad es la libertad biológica de convertirnos en algo diferente a lo que somos.</blockquote>
+        <cite>— Michael Merzenich, Pioneer de la Neuroplasticidad</cite>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ NUTRICIÓN ══════════════ -->
+  <div id="page-nutricion" class="page">
+    <div class="content-hero" data-emoji="🥑" style="border-left: 5px solid var(--sage);">
+      <div class="content-tag" style="color:var(--sage)">Neuronutrición</div>
+      <h1 class="content-h1">Nutrición Cerebral: Comes para Tu Mente</h1>
+      <p class="content-intro">El cerebro consume el 20% de la energía corporal con solo el 2% del peso. Lo que comés afecta directamente la síntesis de neurotransmisores, la inflamación cerebral y la neuroplasticidad.</p>
+    </div>
+    <div class="content-body">
+      <h2 class="h2-section">Nutrientes Clave para el Cerebro</h2>
+      <div class="info-grid">
+        <div class="info-card" style="border-left-color:var(--teal)">
+          <div class="info-card-icon">🐟</div>
+          <h4>Omega-3 (DHA/EPA)</h4>
+          <p>El DHA constituye el 40% de las grasas poliinsaturadas del cerebro. Esencial para la fluidez de membrana neuronal. Fuentes: salmón, sardinas, nueces, semillas de chía.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--violet)">
+          <div class="info-card-icon">🫐</div>
+          <h4>Antioxidantes (Flavonoides)</h4>
+          <p>Los arándanos mejoran la memoria y la cognición en estudios clínicos. Los flavonoides reducen la neuroinflamación y estimulan el BDNF.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--gold)">
+          <div class="info-card-icon">🥚</div>
+          <h4>Colina</h4>
+          <p>Precursor de la acetilcolina, neurotransmisor clave para la memoria y el aprendizaje. Huevos, hígado e hígado de pollo son las mejores fuentes.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--coral)">
+          <div class="info-card-icon">🌿</div>
+          <h4>Magnesio</h4>
+          <p>El magnesio-L-treonato cruza la barrera hematoencefálica y aumenta la densidad de receptores NMDA en el hipocampo. Mejora la memoria y la resiliencia al estrés.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--sage)">
+          <div class="info-card-icon">🦠</div>
+          <h4>Microbioma-Cerebro</h4>
+          <p>El eje intestino-cerebro es bidireccional. El 90% de la serotonina se produce en el intestino. La diversidad microbiana correlaciona con salud mental y cognitiva.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--sky)">
+          <div class="info-card-icon">☕</div>
+          <h4>Cafeína con Criterio</h4>
+          <p>Bloquea los receptores de adenosina, reduciendo la sensación de fatiga. 100–200mg mejoran el foco. Evitar después de las 14h para no comprometer el sueño.</p>
+        </div>
+      </div>
+      <div class="tip-box">
+        <span class="tip-icon">🥑</span>
+        <p><strong>La dieta MIND</strong> (Mediterránea + DASH) reduce el riesgo de Alzheimer en ~53% en quienes la siguen estrictamente. Prioriza: verduras de hoja verde, bayas, frutos secos, aceite de oliva, legumbres, pescado y pollo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ EJERCICIO ══════════════ -->
+  <div id="page-ejercicio" class="page">
+    <div class="content-hero" data-emoji="🏃" style="border-left: 5px solid var(--coral);">
+      <div class="content-tag" style="color:var(--coral)">Neurofitness</div>
+      <h1 class="content-h1">Ejercicio & Cerebro: Mover el Cuerpo Transforma la Mente</h1>
+      <p class="content-intro">El ejercicio es el nootrópico más potente y gratuito que existe. Sus efectos sobre la cognición, la neuroplasticidad y la salud mental son respaldados por miles de estudios.</p>
+    </div>
+    <div class="content-body">
+      <h2 class="h2-section">Mecanismos Neurocientíficos</h2>
+      <div class="info-grid">
+        <div class="info-card" style="border-left-color:var(--coral)">
+          <div class="info-card-icon">🌱</div>
+          <h4>BDNF: El Fertilizante Cerebral</h4>
+          <p>El ejercicio aeróbico eleva el BDNF hasta 3x. Promueve la neurogénesis hipocampal, la sobrevivencia neuronal y la LTP. John Ratey lo llama "Miracle-Gro for the brain".</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--teal)">
+          <div class="info-card-icon">🏋️</div>
+          <h4>IGF-1 y Mielinización</h4>
+          <p>El ejercicio de fuerza libera IGF-1 que cruza la barrera hematoencefálica y promueve la mielinización. Velocidad de procesamiento y conectividad aumentan.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--violet)">
+          <div class="info-card-icon">😊</div>
+          <h4>Endorfinas y Endocannabinoides</h4>
+          <p>El "runner's high" se debe más a endocannabinoides (anandamida) que a endorfinas. Reducen la ansiedad y mejoran el estado de ánimo por horas post-ejercicio.</p>
+        </div>
+        <div class="info-card" style="border-left-color:var(--gold)">
+          <div class="info-card-icon">⚡</div>
+          <h4>Dopamina y Motivación</h4>
+          <p>El ejercicio aumenta el tono dopaminérgico basal. Mejora la motivación, el foco y la sensación de recompensa. Efectivo para síntomas de TDAH y depresión.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <h2 class="h2-section">Protocolo Recomendado</h2>
+      <div class="accordion">
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>🏃 Cardio Aeróbico</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">150–180 min/semana de intensidad moderada (zona 2: puedes hablar pero no cantar). Es el más efectivo para aumentar el BDNF y el volumen hipocampal. Ejemplos: correr, ciclismo, natación, remo.</div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>💪 Entrenamiento de Fuerza</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">2–3 sesiones/semana. Mejora la función ejecutiva, la velocidad de procesamiento y la resistencia cognitiva al envejecimiento. El IGF-1 que libera tiene efectos neuroprotectores significativos en adultos mayores.</div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>🧘 Ejercicio Mente-Cuerpo</span><span class="acc-chevron">▾</span></div>
+          <div class="acc-body"><div class="acc-body-inner">Yoga y Tai Chi combinan movimiento, respiración y atención. Reducen el cortisol, mejoran la regulación emocional y la función ejecutiva. Especialmente efectivos en adultos mayores para reducir el riesgo de caídas y deterioro cognitivo.</div></div>
+        </div>
+      </div>
+      <div class="tip-box">
+        <span class="tip-icon">🏃</span>
+        <p><strong>Timing óptimo:</strong> El ejercicio matutino eleva la dopamina y la norepinefrina las siguientes 2–4 horas, mejorando el foco para trabajar o estudiar. Un breve ejercicio de alta intensidad (5–10 min) antes de una tarea cognitiva difícil aumenta el rendimiento inmediatamente.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ QUIZ ══════════════ -->
+  <div id="page-quiz" class="page">
+    <div class="content-hero" data-emoji="✏️" style="border-left: 5px solid var(--gold);">
+      <div class="content-tag" style="color:var(--gold)">Test de Conocimiento</div>
+      <h1 class="content-h1">¿Cuánto sabés sobre Neurociencia?</h1>
+      <p class="content-intro">Ponete a prueba con este cuestionario interactivo basado en los contenidos del sitio. ¡Cada pregunta tiene explicación!</p>
+    </div>
+    <div class="content-body">
+      <div id="quiz-container"></div>
+      <div style="text-align:center;margin-top:2rem;">
+        <button class="btn-primary" onclick="resetQuiz()">🔄 Reiniciar Quiz</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // ── NAV ──
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('show');
+  }
+
+  const breadcrumbs = {
+    home: 'Inicio', desarrollo: 'Desarrollo Cerebral', ninez: 'Niñez',
+    adolescencia: 'Adolescencia', adultez: 'Adultez', memoria: 'Memoria',
+    atencion: 'Atención', emocion: 'Emoción', sueno: 'Sueño',
+    neuroplasticidad: 'Neuroplasticidad', nutricion: 'Nutrición', ejercicio: 'Ejercicio', quiz: 'Quiz'
+  };
+
+  function navigate(pageId, navEl) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + pageId).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if (navEl) navEl.classList.add('active');
+    else {
+      document.querySelectorAll('.nav-item').forEach(n => {
+        if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'"+pageId+"'"))
+          n.classList.add('active');
+      });
+    }
+    document.getElementById('breadcrumb').textContent = breadcrumbs[pageId] || pageId;
+    if (window.innerWidth < 900) {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('overlay').classList.remove('show');
+    }
+    window.scrollTo(0,0);
+    if (pageId === 'quiz') renderQuiz();
+  }
+
+  // ── TABS ──
+  function showTab(group, id) {
+    document.querySelectorAll(`[id^="tab-${group}-"]`).forEach(t => t.classList.remove('active'));
+    document.getElementById(`tab-${group}-${id}`).classList.add('active');
+    event.target.closest('.tab-buttons').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+
+  // ── ACCORDION ──
+  function toggleAcc(header) {
+    const item = header.closest('.acc-item');
+    item.classList.toggle('open');
+  }
+
+  // ── QUIZ ──
+  const questions = [
+    {
+      q: "¿A qué edad madura completamente el córtex prefrontal humano?",
+      opts: ["16 años", "18 años", "25 años", "30 años"],
+      ans: 2,
+      exp: "El córtex prefrontal, responsable del control ejecutivo y la toma de decisiones, alcanza su madurez plena alrededor de los 25 años."
+    },
+    {
+      q: "¿Cuántas conexiones sinápticas puede formar una neurona durante los primeros años de vida?",
+      opts: ["Hasta 1.000", "Hasta 5.000", "Hasta 15.000", "Hasta 100.000"],
+      ans: 2,
+      exp: "En los primeros años de vida, cada neurona puede establecer hasta 15.000 conexiones sinápticas, durante la 'sinaptogénesis explosiva'."
+    },
+    {
+      q: "¿Qué sustancia libera el ejercicio aeróbico y se llama 'fertilizante cerebral'?",
+      opts: ["Serotonina", "BDNF", "Cortisol", "Insulina"],
+      ans: 1,
+      exp: "El BDNF (Factor Neurotrófico Derivado del Cerebro) se eleva hasta 3x con el ejercicio aeróbico y promueve la neurogénesis y la plasticidad sináptica."
+    },
+    {
+      q: "¿Qué ocurre durante el sueño profundo (N3) en el cerebro?",
+      opts: [
+        "Se generan sueños vívidos",
+        "El sistema glinfático elimina proteínas tóxicas como el beta-amiloide",
+        "Aumenta la actividad del córtex visual",
+        "Se libera adrenalina"
+      ],
+      ans: 1,
+      exp: "Durante el sueño N3 (ondas delta), el sistema glinfático actúa como sistema de limpieza cerebral, eliminando productos de desecho como el beta-amiloide, asociado al Alzheimer."
+    },
+    {
+      q: "Según el 'Efecto de Prueba' (Testing Effect), ¿qué estrategia mejora más la memoria?",
+      opts: [
+        "Releer el material varias veces",
+        "Subrayar con diferentes colores",
+        "Recuperar activamente la información",
+        "Estudiar en grupos grandes"
+      ],
+      ans: 2,
+      exp: "La práctica de recuperación activa (intentar recordar sin mirar el material) es 2–3 veces más efectiva que releer para consolidar memoria a largo plazo."
+    },
+    {
+      q: "¿Por qué los adolescentes tienden a buscar más riesgo y novedad?",
+      opts: [
+        "Por inmadurez emocional general",
+        "Porque el sistema límbico madura antes que el córtex prefrontal",
+        "Por influencia hormonal exclusivamente",
+        "Porque tienen menos neuronas que los adultos"
+      ],
+      ans: 1,
+      exp: "El desequilibrio entre el sistema límbico (ya maduro, hipersensible a recompensas) y el córtex prefrontal (aún en desarrollo) explica la búsqueda de riesgo adolescente."
+    },
+    {
+      q: "¿Qué es la 'reserva cognitiva'?",
+      opts: [
+        "La cantidad de neuronas que uno nace",
+        "La capacidad del cerebro de tolerar daño sin manifestar síntomas clínicos",
+        "El volumen total del hipocampo",
+        "La velocidad de procesamiento neural"
+      ],
+      ans: 1,
+      exp: "La reserva cognitiva es la capacidad del cerebro de usar redes alternativas para compensar daño neurológico. Se construye con educación, ejercicio y estimulación cognitiva."
+    },
+    {
+      q: "El principio de Hebb establece que...",
+      opts: [
+        "El cerebro adulto no puede cambiar",
+        "Las neuronas que se activan juntas, se conectan juntas",
+        "El sueño bloquea la plasticidad",
+        "La memoria disminuye con la edad inevitablemente"
+      ],
+      ans: 1,
+      exp: "La Regla de Hebb ('neurons that fire together, wire together') es el mecanismo celular del aprendizaje: la activación repetida de una sinapsis la fortalece estructuralmente."
+    }
+  ];
+
+  let answered = [];
+  let score = 0;
+
+  function renderQuiz() {
+    answered = new Array(questions.length).fill(null);
+    score = 0;
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = questions.map((q, i) => `
+      <div class="quiz-section" id="q${i}" style="margin-bottom:1.5rem;">
+        <div class="quiz-q">${i+1}. ${q.q}</div>
+        <div class="quiz-options">
+          ${q.opts.map((opt, j) => `
+            <div class="quiz-opt" onclick="answerQ(${i},${j})" id="opt-${i}-${j}">${opt}</div>
+          `).join('')}
+        </div>
+        <div class="quiz-feedback" id="fb-${i}"></div>
+      </div>
+    `).join('') + `<div id="quiz-result" style="display:none;text-align:center;padding:2rem;background:white;border-radius:16px;border:1px solid var(--border);margin-top:1rem;"></div>`;
+  }
+
+  function answerQ(qi, optIdx) {
+    if (answered[qi] !== null) return;
+    answered[qi] = optIdx;
+    const correct = questions[qi].ans;
+    for (let j = 0; j < questions[qi].opts.length; j++) {
+      const el = document.getElementById(`opt-${qi}-${j}`);
+      el.style.pointerEvents = 'none';
+      if (j === correct) el.classList.add('correct');
+      if (j === optIdx && optIdx !== correct) el.classList.add('wrong');
+    }
+    const fb = document.getElementById(`fb-${qi}`);
+    if (optIdx === correct) {
+      score++;
+      fb.textContent = '✅ ' + questions[qi].exp;
+      fb.style.color = 'var(--teal-light)';
+    } else {
+      fb.textContent = '❌ ' + questions[qi].exp;
+      fb.style.color = 'var(--coral)';
+    }
+    if (answered.every(a => a !== null)) showResult();
+  }
+
+  function showResult() {
+    const pct = Math.round((score/questions.length)*100);
+    const msg = pct >= 80 ? '🧠 ¡Experto en Neurociencia!' : pct >= 60 ? '👍 Buen conocimiento, seguí aprendiendo' : '📚 Revisá los módulos para reforzar';
+    document.getElementById('quiz-result').style.display = 'block';
+    document.getElementById('quiz-result').innerHTML = `
+      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--teal)">${pct}%</div>
+      <div style="font-size:1.1rem;font-weight:600;margin:.5rem 0">${score} / ${questions.length} correctas</div>
+      <div style="font-size:.9rem;color:rgba(14,14,20,.6)">${msg}</div>
+    `;
+  }
+
+  function resetQuiz() { renderQuiz(); }
+
+  // Init
+  renderQuiz();
+</script>
+</body>
+</html>
