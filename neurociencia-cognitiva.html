@@ -19,6 +19,15 @@
     <h1>NeuroMente</h1>
     <p>Neurociencia & Cognición</p>
   </div>
+  <div class="sidebar-progress">
+    <div class="sidebar-progress-head">
+      <span>Progreso global</span>
+      <strong id="global-progress-label">0%</strong>
+    </div>
+    <div class="sidebar-progress-track">
+      <span class="sidebar-progress-fill" id="global-progress-fill"></span>
+    </div>
+  </div>
 
   <div class="nav-section">Inicio</div>
   <div class="nav-item active" onclick="navigate('home', this)" data-nav-page="home"><span class="nav-icon">🏠</span> Inicio</div>
@@ -115,7 +124,7 @@
             <h3>Desarrollo Cerebral</h3>
             <p>Cómo se construye el cerebro desde el embrión hasta la adultez.</p>
           </div>
-          <div class="module-card-footer"><span>8 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>8 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
         <div class="module-card" onclick="navigate('ninez', null)" data-nav-page="ninez">
           <div class="module-card-top" style="background:linear-gradient(135deg,#e05c3a22,#e05c3a44)">🧒</div>
@@ -124,7 +133,7 @@
             <h3>Niñez</h3>
             <p>Ventanas críticas de aprendizaje, lenguaje y desarrollo socioemocional.</p>
           </div>
-          <div class="module-card-footer"><span>10 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>10 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
         <div class="module-card" onclick="navigate('adolescencia', null)" data-nav-page="adolescencia">
           <div class="module-card-top" style="background:linear-gradient(135deg,#5c3d8f22,#5c3d8f44)">🧑</div>
@@ -133,7 +142,7 @@
             <h3>Adolescencia</h3>
             <p>Poda sináptica, riesgo, recompensa y el cerebro en construcción.</p>
           </div>
-          <div class="module-card-footer"><span>9 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>9 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
         <div class="module-card" onclick="navigate('adultez', null)" data-nav-page="adultez">
           <div class="module-card-top" style="background:linear-gradient(135deg,#c9a84c22,#c9a84c44)">👨</div>
@@ -142,7 +151,7 @@
             <h3>Adultez & Madurez</h3>
             <p>Mantenimiento cognitivo, envejecimiento y reserva cerebral.</p>
           </div>
-          <div class="module-card-footer"><span>11 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>11 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
         <div class="module-card" onclick="navigate('memoria', null)" data-nav-page="memoria">
           <div class="module-card-top" style="background:linear-gradient(135deg,#3a6ea822,#3a6ea844)">🗃️</div>
@@ -151,7 +160,7 @@
             <h3>Memoria & Aprendizaje</h3>
             <p>Tipos de memoria, consolidación y estrategias para aprender mejor.</p>
           </div>
-          <div class="module-card-footer"><span>12 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>12 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
         <div class="module-card" onclick="navigate('atencion', null)" data-nav-page="atencion">
           <div class="module-card-top" style="background:linear-gradient(135deg,#5a7a5a22,#5a7a5a44)">🎯</div>
@@ -160,25 +169,27 @@
             <h3>Atención & Foco</h3>
             <p>Redes atencionales, TDAH, y técnicas para mejorar la concentración.</p>
           </div>
-          <div class="module-card-footer"><span>9 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>9 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
         <div class="module-card" onclick="navigate('neuroplasticidad', null)" data-nav-page="neuroplasticidad">
+        <div class="module-card" data-module-id="neuroplasticidad" onclick="navigate('neuroplasticidad', null)">
           <div class="module-card-top" style="background:linear-gradient(135deg,#c45c7a22,#c45c7a44)">🔀</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--rose)">Optimización</div>
             <h3>Neuroplasticidad</h3>
             <p>Cómo el cerebro se rewire y cómo aprovecharlo a cualquier edad.</p>
           </div>
-          <div class="module-card-footer"><span>10 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>10 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
         <div class="module-card" onclick="navigate('sueno', null)" data-nav-page="sueno">
+        <div class="module-card" data-module-id="sueno" onclick="navigate('sueno', null)">
           <div class="module-card-top" style="background:linear-gradient(135deg,#2a4a8a22,#2a4a8a44)">😴</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:#3a5ea8">Recuperación</div>
             <h3>Sueño & Rendimiento</h3>
             <p>Por qué dormir bien es la herramienta cognitiva más poderosa.</p>
           </div>
-          <div class="module-card-footer"><span>8 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>8 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
       </div>
     </div>
@@ -878,9 +889,64 @@
     </div>
   </div>
 
+
+  <!-- ══════════════ LABORATORIO ══════════════ -->
+  <div id="page-laboratorio" class="page">
+    <div class="content-hero" data-emoji="🧪" style="border-left: 5px solid var(--violet);">
+      <div class="content-tag" style="color:var(--violet)">NeuroLab Interactivo</div>
+      <h1 class="content-h1">Laboratorio Cognitivo Premium</h1>
+      <p class="content-intro">Entrena foco, memoria de trabajo y percepción en micro-experimentos diseñados para móvil y desktop, con feedback inmediato.</p>
+    </div>
+    <div class="content-body">
+      <div class="lab-layout">
+        <section>
+          <h2 class="h2-section">Panel de desempeño</h2>
+          <div id="lab-performance-grid" class="lab-performance-grid"></div>
+        </section>
+        <section>
+          <h2 class="h2-section">Experimentos</h2>
+          <div class="lab-experiments">
+            <article class="lab-exp-card" data-lab-attention>
+              <div class="lab-exp-head"><h3>Atención Reactiva</h3><span class="lab-exp-tag">cronómetro</span></div>
+              <p class="lab-exp-desc">Toca el estímulo objetivo lo más rápido posible y evita distractores.</p>
+              <button class="lab-cta" data-attention-start type="button">Iniciar test</button>
+              <div class="attention-arena" data-attention-arena></div>
+              <div class="lab-result-inline" data-attention-status>Listo para empezar.</div>
+            </article>
+
+            <article class="lab-exp-card" data-lab-illusion>
+              <div class="lab-exp-head"><h3>Ilusión Visual Contextual</h3><span class="lab-exp-tag">percepción</span></div>
+              <p class="lab-exp-desc">Elige qué círculo parece mayor y descubre el sesgo perceptivo detrás.</p>
+              <button class="lab-cta" data-illusion-toggle type="button">Cambiar contexto</button>
+              <div class="illusion-stage">
+                <button class="illusion-circle" data-size="equal" type="button" aria-label="Círculo izquierdo"></button>
+                <button class="illusion-circle" data-size="bigger" type="button" aria-label="Círculo derecho"></button>
+              </div>
+              <div class="lab-result-inline" data-illusion-feedback>Ambos círculos son iguales: toca uno para responder.</div>
+            </article>
+
+            <article class="lab-exp-card" data-lab-memory>
+              <div class="lab-exp-head"><h3>Memoria Mini-Test</h3><span class="lab-exp-tag">working memory</span></div>
+              <p class="lab-exp-desc">Memoriza y repite secuencias progresivas para medir memoria de trabajo.</p>
+              <button class="lab-cta" data-memory-start type="button">Iniciar secuencia</button>
+              <div class="memory-board" data-memory-board>
+                <button class="memory-tile" type="button"></button>
+                <button class="memory-tile" type="button"></button>
+                <button class="memory-tile" type="button"></button>
+                <button class="memory-tile" type="button"></button>
+              </div>
+              <div class="lab-result-inline" data-memory-status>Esperando inicio.</div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
 </main>
 
 <script type="module" src="./src/js/main.js"></script>
 <script type="module" src="./src/brain3d/BrainPanel.js"></script>
+<script type="module" src="./src/lab/index.js"></script>
 </body>
 </html>
