@@ -79,6 +79,46 @@
   .nav-item.active { color: var(--gold); border-left-color: var(--gold); background: rgba(201,168,76,.06); font-weight: 600; }
   .nav-icon { font-size: 1rem; width: 1.2rem; text-align: center; }
   .nav-badge { margin-left:auto; font-size:.62rem; background:var(--gold); color:var(--ink); border-radius:99px; padding:.1rem .45rem; font-weight:700; }
+  .nav-complete {
+    margin-left: auto;
+    font-size: .72rem;
+    color: rgba(62,184,184,.9);
+    opacity: 0;
+    transform: translateX(2px);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .nav-item.is-complete .nav-complete {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .sidebar-progress {
+    margin: 1rem 1.2rem 1.3rem;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px;
+    padding: .9rem;
+  }
+  .sidebar-progress-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: .76rem;
+    color: rgba(245,242,235,.85);
+    margin-bottom: .45rem;
+  }
+  .sidebar-progress-track {
+    height: 7px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.14);
+    overflow: hidden;
+  }
+  .sidebar-progress-fill {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold), var(--teal-light));
+    transition: width .35s ease;
+  }
 
   /* ── TOPBAR ── */
   #topbar {
@@ -265,6 +305,10 @@
     position: relative;
   }
   .module-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(14,14,20,.1); }
+  .module-card.is-complete {
+    border-color: rgba(62,184,184,.35);
+    box-shadow: 0 12px 28px rgba(62,184,184,.14);
+  }
   .module-card-top {
     height: 120px;
     display: flex; align-items: center; justify-content: center;
@@ -286,6 +330,44 @@
     border-top: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
     font-size: .78rem; color: rgba(14,14,20,.4);
+  }
+  .module-complete-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    padding: .18rem .5rem;
+    border-radius: 999px;
+    font-size: .64rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    background: rgba(62,184,184,.15);
+    color: var(--teal);
+    visibility: hidden;
+  }
+  .module-card.is-complete .module-complete-badge {
+    visibility: visible;
+  }
+  .module-complete-btn {
+    margin-top: 1.2rem;
+    padding: .62rem 1rem;
+    border-radius: 99px;
+    border: 1px solid rgba(14,14,20,.14);
+    background: white;
+    font-size: .8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s ease;
+  }
+  .module-complete-btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(62,184,184,.5);
+    color: var(--teal);
+  }
+  .module-complete-btn.done {
+    background: rgba(62,184,184,.12);
+    border-color: rgba(62,184,184,.45);
+    color: var(--teal);
   }
   .card-arrow { font-size: 1rem; transition: transform .2s; }
   .module-card:hover .card-arrow { transform: translateX(4px); }
@@ -827,27 +909,36 @@
     <h1>NeuroMente</h1>
     <p>Neurociencia & Cognición</p>
   </div>
+  <div class="sidebar-progress">
+    <div class="sidebar-progress-head">
+      <span>Progreso global</span>
+      <strong id="global-progress-label">0%</strong>
+    </div>
+    <div class="sidebar-progress-track">
+      <span class="sidebar-progress-fill" id="global-progress-fill"></span>
+    </div>
+  </div>
 
   <div class="nav-section">Inicio</div>
   <div class="nav-item active" onclick="navigate('home',this)"><span class="nav-icon">🏠</span> Inicio</div>
 
   <div class="nav-section">Desarrollo</div>
-  <div class="nav-item" onclick="navigate('desarrollo',this)"><span class="nav-icon">🧬</span> Desarrollo Cerebral</div>
-  <div class="nav-item" onclick="navigate('ninez',this)"><span class="nav-icon">🧒</span> Niñez (0–12 años)</div>
-  <div class="nav-item" onclick="navigate('adolescencia',this)"><span class="nav-icon">🧑</span> Adolescencia</div>
-  <div class="nav-item" onclick="navigate('adultez',this)"><span class="nav-icon">👨</span> Adultez & Madurez</div>
+  <div class="nav-item" data-module-id="desarrollo" onclick="navigate('desarrollo',this)"><span class="nav-icon">🧬</span> Desarrollo Cerebral <span class="nav-complete">✓</span></div>
+  <div class="nav-item" data-module-id="ninez" onclick="navigate('ninez',this)"><span class="nav-icon">🧒</span> Niñez (0–12 años) <span class="nav-complete">✓</span></div>
+  <div class="nav-item" data-module-id="adolescencia" onclick="navigate('adolescencia',this)"><span class="nav-icon">🧑</span> Adolescencia <span class="nav-complete">✓</span></div>
+  <div class="nav-item" data-module-id="adultez" onclick="navigate('adultez',this)"><span class="nav-icon">👨</span> Adultez & Madurez <span class="nav-complete">✓</span></div>
 
   <div class="nav-section">Rendimiento</div>
-  <div class="nav-item" onclick="navigate('memoria',this)"><span class="nav-icon">🗃️</span> Memoria & Aprendizaje</div>
-  <div class="nav-item" onclick="navigate('atencion',this)"><span class="nav-icon">🎯</span> Atención & Foco</div>
-  <div class="nav-item" onclick="navigate('emocion',this)"><span class="nav-icon">❤️</span> Emoción & Cognición</div>
-  <div class="nav-item" onclick="navigate('sueno',this)"><span class="nav-icon">😴</span> Sueño & Rendimiento</div>
+  <div class="nav-item" data-module-id="memoria" onclick="navigate('memoria',this)"><span class="nav-icon">🗃️</span> Memoria & Aprendizaje <span class="nav-complete">✓</span></div>
+  <div class="nav-item" data-module-id="atencion" onclick="navigate('atencion',this)"><span class="nav-icon">🎯</span> Atención & Foco <span class="nav-complete">✓</span></div>
+  <div class="nav-item" data-module-id="emocion" onclick="navigate('emocion',this)"><span class="nav-icon">❤️</span> Emoción & Cognición <span class="nav-complete">✓</span></div>
+  <div class="nav-item" data-module-id="sueno" onclick="navigate('sueno',this)"><span class="nav-icon">😴</span> Sueño & Rendimiento <span class="nav-complete">✓</span></div>
 
   <div class="nav-section">Optimización</div>
-  <div class="nav-item" onclick="navigate('neuroplasticidad',this)"><span class="nav-icon">🔀</span> Neuroplasticidad</div>
-  <div class="nav-item" onclick="navigate('nutricion',this)"><span class="nav-icon">🥑</span> Nutrición Cerebral</div>
-  <div class="nav-item" onclick="navigate('ejercicio',this)"><span class="nav-icon">🏃</span> Ejercicio & Cerebro</div>
-  <div class="nav-item" onclick="navigate('mapa',this)"><span class="nav-icon">🗺️</span> Mapa Cerebral 3D</div>
+  <div class="nav-item" data-module-id="neuroplasticidad" onclick="navigate('neuroplasticidad',this)"><span class="nav-icon">🔀</span> Neuroplasticidad <span class="nav-complete">✓</span></div>
+  <div class="nav-item" data-module-id="nutricion" onclick="navigate('nutricion',this)"><span class="nav-icon">🥑</span> Nutrición Cerebral <span class="nav-complete">✓</span></div>
+  <div class="nav-item" data-module-id="ejercicio" onclick="navigate('ejercicio',this)"><span class="nav-icon">🏃</span> Ejercicio & Cerebro <span class="nav-complete">✓</span></div>
+  <div class="nav-item" data-module-id="mapa" onclick="navigate('mapa',this)"><span class="nav-icon">🗺️</span> Mapa Cerebral 3D <span class="nav-complete">✓</span></div>
   <div class="nav-item" onclick="navigate('quiz',this)"><span class="nav-icon">✏️</span> Test de Conocimiento <span class="nav-badge">Quiz</span></div>
   <div class="nav-item" onclick="navigate('laboratorio',this)"><span class="nav-icon">🧪</span> Laboratorio Cognitivo <span class="nav-badge">Nuevo</span></div>
 </nav>
@@ -917,86 +1008,77 @@
         <p class="section-sub">Navega por cada sección para aprender en profundidad</p>
       </div>
       <div class="modules-grid">
-        <div class="module-card" onclick="navigate('desarrollo', null)">
+        <div class="module-card" data-module-id="desarrollo" onclick="navigate('desarrollo', null)">
           <div class="module-card-top" style="background:linear-gradient(135deg,#2a8a8a22,#2a8a8a44)">🧬</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--teal)">Fundamentos</div>
             <h3>Desarrollo Cerebral</h3>
             <p>Cómo se construye el cerebro desde el embrión hasta la adultez.</p>
           </div>
-          <div class="module-card-footer"><span>8 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>8 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('ninez', null)">
+        <div class="module-card" data-module-id="ninez" onclick="navigate('ninez', null)">
           <div class="module-card-top" style="background:linear-gradient(135deg,#e05c3a22,#e05c3a44)">🧒</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--coral)">0–12 años</div>
             <h3>Niñez</h3>
             <p>Ventanas críticas de aprendizaje, lenguaje y desarrollo socioemocional.</p>
           </div>
-          <div class="module-card-footer"><span>10 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>10 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('adolescencia', null)">
+        <div class="module-card" data-module-id="adolescencia" onclick="navigate('adolescencia', null)">
           <div class="module-card-top" style="background:linear-gradient(135deg,#5c3d8f22,#5c3d8f44)">🧑</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--violet)">12–24 años</div>
             <h3>Adolescencia</h3>
             <p>Poda sináptica, riesgo, recompensa y el cerebro en construcción.</p>
           </div>
-          <div class="module-card-footer"><span>9 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>9 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('adultez', null)">
+        <div class="module-card" data-module-id="adultez" onclick="navigate('adultez', null)">
           <div class="module-card-top" style="background:linear-gradient(135deg,#c9a84c22,#c9a84c44)">👨</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--gold)">25+ años</div>
             <h3>Adultez & Madurez</h3>
             <p>Mantenimiento cognitivo, envejecimiento y reserva cerebral.</p>
           </div>
-          <div class="module-card-footer"><span>11 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>11 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('memoria', null)">
+        <div class="module-card" data-module-id="memoria" onclick="navigate('memoria', null)">
           <div class="module-card-top" style="background:linear-gradient(135deg,#3a6ea822,#3a6ea844)">🗃️</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--sky)">Cognición</div>
             <h3>Memoria & Aprendizaje</h3>
             <p>Tipos de memoria, consolidación y estrategias para aprender mejor.</p>
           </div>
-          <div class="module-card-footer"><span>12 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>12 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('atencion', null)">
+        <div class="module-card" data-module-id="atencion" onclick="navigate('atencion', null)">
           <div class="module-card-top" style="background:linear-gradient(135deg,#5a7a5a22,#5a7a5a44)">🎯</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--sage)">Foco</div>
             <h3>Atención & Foco</h3>
             <p>Redes atencionales, TDAH, y técnicas para mejorar la concentración.</p>
           </div>
-          <div class="module-card-footer"><span>9 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>9 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('laboratorio', null)">
-          <div class="module-card-top" style="background:linear-gradient(135deg,#5c3d8f22,#2a8a8a44)">🧪</div>
-          <div class="module-card-body">
-            <div class="module-card-tag" style="color:var(--violet)">Interactivo</div>
-            <h3>Laboratorio Cognitivo</h3>
-            <p>Mini experimentos premium de atención, percepción y memoria con resultados inmediatos.</p>
-          </div>
-          <div class="module-card-footer"><span>3 pruebas rápidas</span><span class="card-arrow">→</span></div>
-        </div>
-        <div class="module-card" onclick="navigate('neuroplasticidad', null)">
+        <div class="module-card" data-module-id="neuroplasticidad" onclick="navigate('neuroplasticidad', null)">
           <div class="module-card-top" style="background:linear-gradient(135deg,#c45c7a22,#c45c7a44)">🔀</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--rose)">Optimización</div>
             <h3>Neuroplasticidad</h3>
             <p>Cómo el cerebro se rewire y cómo aprovecharlo a cualquier edad.</p>
           </div>
-          <div class="module-card-footer"><span>10 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>10 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('sueno', null)">
+        <div class="module-card" data-module-id="sueno" onclick="navigate('sueno', null)">
           <div class="module-card-top" style="background:linear-gradient(135deg,#2a4a8a22,#2a4a8a44)">😴</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:#3a5ea8">Recuperación</div>
             <h3>Sueño & Rendimiento</h3>
             <p>Por qué dormir bien es la herramienta cognitiva más poderosa.</p>
           </div>
-          <div class="module-card-footer"><span>8 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>8 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
       </div>
     </div>
@@ -1937,6 +2019,76 @@
 
   // Init
   renderQuiz();
+</script>
+<script type="module">
+  import {
+    TRACKABLE_MODULES,
+    loadProgress,
+    markModuleCompleted,
+    getCompletionPercent
+  } from './src/progress/progressStore.js';
+
+  const modulesWithPages = TRACKABLE_MODULES.filter((moduleId) => moduleId !== 'laboratorio');
+
+  function updateProgressUI() {
+    const state = loadProgress();
+    const completed = state.completed || {};
+    document.querySelectorAll('[data-module-id]').forEach((el) => {
+      const moduleId = el.dataset.moduleId;
+      el.classList.toggle('is-complete', Boolean(completed[moduleId]));
+    });
+
+    const pct = getCompletionPercent();
+    const progressLabel = document.getElementById('global-progress-label');
+    const progressFill = document.getElementById('global-progress-fill');
+    if (progressLabel) progressLabel.textContent = `${pct}%`;
+    if (progressFill) progressFill.style.width = `${pct}%`;
+
+    document.querySelectorAll('[data-complete-module-action]').forEach((btn) => {
+      const moduleId = btn.dataset.completeModuleAction;
+      const done = Boolean(completed[moduleId]);
+      btn.classList.toggle('done', done);
+      btn.textContent = done ? '✓ Módulo completado' : '✅ Marcar módulo como completado';
+    });
+  }
+
+  function injectCompletionButtons() {
+    modulesWithPages.forEach((moduleId) => {
+      const body = document.querySelector(`#page-${moduleId} .content-body`);
+      if (!body || body.querySelector(`[data-complete-module-action="${moduleId}"]`)) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'module-complete-btn';
+      btn.dataset.completeModuleAction = moduleId;
+      btn.textContent = '✅ Marcar módulo como completado';
+      body.appendChild(btn);
+    });
+  }
+
+  document.addEventListener('click', (event) => {
+    const actionBtn = event.target.closest('[data-complete-module-action]');
+    if (!actionBtn) return;
+    markModuleCompleted(actionBtn.dataset.completeModuleAction);
+    updateProgressUI();
+  });
+
+  window.addEventListener('brain:region-active', () => {
+    markModuleCompleted('mapa');
+    markModuleCompleted('laboratorio');
+    updateProgressUI();
+  });
+
+  const baseShowResult = window.showResult;
+  if (typeof baseShowResult === 'function') {
+    window.showResult = function wrappedShowResult() {
+      baseShowResult();
+      markModuleCompleted('laboratorio');
+      updateProgressUI();
+    };
+  }
+
+  injectCompletionButtons();
+  updateProgressUI();
 </script>
 <script type="module" src="./src/brain3d/BrainPanel.js"></script>
 <script type="module" src="./src/lab/index.js"></script>
