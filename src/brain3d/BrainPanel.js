@@ -25,62 +25,120 @@ class BrainPanel {
   }
 }
 
-function bootstrapBrain3D() {
-  const container = document.getElementById('brain-viewport');
-  const panelEl = document.getElementById('brain-panel');
-  if (!container || !panelEl) return;
+let bootPromise = null;
 
-  const panel = new BrainPanel(panelEl);
-  const sceneApi = createBrainScene(container);
+export function bootstrapBrain3D() {
+  if (bootPromise) return bootPromise;
 
-  let interactionsApi = null;
-  let rootModel = null;
-
-  lazyLoadBrainModel({
-    scene: sceneApi.scene,
-    container,
-    modelUrl: './src/brain3d/assets/brain.glb',
-    onLoaded: (root) => {
-      rootModel = root;
-      interactionsApi = setupInteractions({
-        THREE: sceneApi.THREE,
-        scene: sceneApi.scene,
-        camera: sceneApi.camera,
-        renderer: sceneApi.renderer,
-        rootObject: rootModel,
-        emitTarget: window
-      });
+  bootPromise = new Promise((resolve) => {
+    const container = document.getElementById('brain-viewport');
+    const panelEl = document.getElementById('brain-panel');
+    if (!container || !panelEl) {
+      resolve(null);
+      return;
     }
+
+    const panel = new BrainPanel(panelEl);
+    const sceneApi = createBrainScene(container);
+
+    let interactionsApi = null;
+    let rootModel = null;
+    let frameId = null;
+    let modelCleanup = null;
+    let isPageActive = document.getElementById('page-mapa')?.classList.contains('active') ?? false;
+    let isViewportVisible = false;
+
+    const shouldRotate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function shouldRender() {
+      return !!rootModel && isPageActive && isViewportVisible && !document.hidden;
+    }
+
+    function renderFrame() {
+      if (!shouldRender()) {
+        frameId = null;
+        return;
+      }
+
+      if (shouldRotate) {
+        rootModel.rotation.y += 0.003;
+      }
+
+      interactionsApi?.update();
+      sceneApi.renderer.render(sceneApi.scene, sceneApi.camera);
+      frameId = requestAnimationFrame(renderFrame);
+    }
+
+    function ensureLoopState() {
+      if (shouldRender()) {
+        if (frameId == null) {
+          frameId = requestAnimationFrame(renderFrame);
+        }
+      } else if (frameId != null) {
+        cancelAnimationFrame(frameId);
+        frameId = null;
+      }
+    }
+
+    const visibilityObserver = new IntersectionObserver((entries) => {
+      isViewportVisible = entries.some((entry) => entry.isIntersecting);
+      ensureLoopState();
+    }, { threshold: 0.2 });
+
+    visibilityObserver.observe(container);
+
+    modelCleanup = lazyLoadBrainModel({
+      scene: sceneApi.scene,
+      container,
+      modelUrl: './src/brain3d/assets/brain.glb',
+      onLoaded: (root) => {
+        rootModel = root;
+        interactionsApi = setupInteractions({
+          THREE: sceneApi.THREE,
+          scene: sceneApi.scene,
+          camera: sceneApi.camera,
+          renderer: sceneApi.renderer,
+          rootObject: rootModel,
+          emitTarget: window
+        });
+        sceneApi.onResize();
+        ensureLoopState();
+      }
+    });
+
+    const onRegionActive = (event) => panel.show(event.detail.region);
+    const onPageChanged = (event) => {
+      const pageId = event.detail?.pageId;
+      isPageActive = pageId === 'brain3d' || pageId === 'mapa';
+      if (isPageActive) {
+        sceneApi.onResize();
+      }
+      ensureLoopState();
+    };
+    const onDocVisibility = () => ensureLoopState();
+
+    window.addEventListener('brain:region-active', onRegionActive);
+    window.addEventListener('page:changed', onPageChanged);
+    document.addEventListener('visibilitychange', onDocVisibility);
+
+    resolve({
+      dispose() {
+        if (frameId != null) {
+          cancelAnimationFrame(frameId);
+          frameId = null;
+        }
+        visibilityObserver.disconnect();
+        modelCleanup?.();
+        interactionsApi?.dispose();
+        sceneApi.dispose();
+        window.removeEventListener('brain:region-active', onRegionActive);
+        window.removeEventListener('page:changed', onPageChanged);
+        document.removeEventListener('visibilitychange', onDocVisibility);
+      }
+    });
   });
 
-  window.addEventListener('brain:region-active', (event) => {
-    panel.show(event.detail.region);
-  });
-
-  window.addEventListener('page:changed', (event) => {
-    if (event.detail?.pageId === 'brain3d' || event.detail?.pageId === 'mapa') {
-      sceneApi.onResize();
-    }
-  });
-
-  const clock = new sceneApi.THREE.Clock();
-
-  function animate() {
-    requestAnimationFrame(animate);
-    if (rootModel) {
-      rootModel.rotation.y += clock.getDelta() * 0.2;
-    }
-    interactionsApi?.update();
-    sceneApi.renderer.render(sceneApi.scene, sceneApi.camera);
-  }
-
-  animate();
+  return bootPromise;
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', bootstrapBrain3D);
-} else {
-  bootstrapBrain3D();
-}
-
-export { BrainPanel, bootstrapBrain3D };
+export { BrainPanel };
