@@ -1,0 +1,167 @@
+  /* ── STAT CARDS (home) ── */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 1px; background: var(--border);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-card {
+    background: var(--paper); padding: 2.5rem 2rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem; font-weight: 900;
+    color: var(--teal); line-height: 1;
+    margin-bottom: .4rem;
+  }
+  .stat-label { font-size: .82rem; color: rgba(14,14,20,.5); line-height: 1.4; }
+
+  /* ── MODULE CARDS ── */
+  .modules-section { padding: 5rem 3rem; }
+  .section-header { text-align: center; margin-bottom: 3.5rem; }
+  .section-tag {
+    font-size: .7rem; letter-spacing:.15em; text-transform:uppercase;
+    color: var(--gold); font-weight:600; margin-bottom:.8rem;
+  }
+  .section-h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem; font-weight: 800;
+  }
+  .section-sub { color: rgba(14,14,20,.55); margin-top:.8rem; font-size:1rem; }
+
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .module-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+    position: relative;
+  }
+  .module-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(14,14,20,.1); }
+  .module-card-top {
+    height: 120px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+    position: relative; overflow: hidden;
+  }
+  .module-card-body { padding: 1.5rem; }
+  .module-card-tag {
+    font-size: .68rem; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:600; margin-bottom:.5rem;
+  }
+  .module-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight:700; margin-bottom:.5rem;
+  }
+  .module-card p { font-size: .83rem; color: rgba(14,14,20,.55); line-height: 1.5; }
+  .module-card-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: .78rem; color: rgba(14,14,20,.4);
+  }
+  .card-arrow { font-size: 1rem; transition: transform .2s; }
+  .module-card:hover .card-arrow { transform: translateX(4px); }
+  /* ── INFO CARDS ── */
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; margin: 2rem 0; }
+  .info-card {
+    background: white; border-radius: 14px;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--teal);
+  }
+  .info-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight:700; margin-bottom:.5rem;
+  }
+  .info-card p { font-size:.84rem; color:rgba(14,14,20,.6); line-height:1.6; }
+  .info-card-icon { font-size: 1.5rem; margin-bottom: .8rem; }
+  /* ── TABS ── */
+  .tabs-wrap { margin: 2rem 0; }
+  .tab-buttons { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .tab-btn {
+    padding: .5rem 1.2rem; border-radius: 99px;
+    border: 1.5px solid var(--border);
+    background: transparent; cursor: pointer;
+    font-size: .84rem; font-weight:500;
+    transition: all .2s; color: rgba(14,14,20,.6);
+  }
+  .tab-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .tab-content { display: none; animation: fadeIn .3s; }
+  .tab-content.active { display: block; }
+
+  /* ── ACCORDION ── */
+  .accordion { margin: 1.5rem 0; }
+  .acc-item {
+    border: 1px solid var(--border); border-radius: 12px;
+    margin-bottom: .6rem; overflow: hidden;
+  }
+  .acc-header {
+    padding: 1.1rem 1.4rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    background: white;
+    font-weight: 600; font-size: .92rem;
+    transition: background .2s;
+    user-select: none;
+  }
+  .acc-header:hover { background: var(--cream); }
+  .acc-chevron { font-size: .8rem; transition: transform .3s; }
+  .acc-item.open .acc-chevron { transform: rotate(180deg); }
+  .acc-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height .4s cubic-bezier(.4,0,.2,1);
+  }
+  .acc-item.open .acc-body { max-height: 600px; }
+  .acc-body-inner { padding: 1rem 1.4rem 1.4rem; font-size: .88rem; color: rgba(14,14,20,.65); line-height: 1.7; background: white; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-item { margin-bottom: 1.2rem; }
+  .progress-label { display: flex; justify-content: space-between; font-size: .84rem; font-weight:600; margin-bottom: .4rem; }
+  .progress-track { height: 8px; background: var(--cream); border-radius: 99px; overflow:hidden; }
+  .progress-fill { height: 100%; border-radius: 99px; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+
+  /* ── TIP BOX ── */
+  .tip-box {
+    background: #fff9ec; border: 1.5px solid var(--gold);
+    border-radius: 12px; padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0; display: flex; gap: .8rem; align-items: flex-start;
+  }
+  .tip-box .tip-icon { font-size: 1.3rem; flex-shrink:0; }
+  .tip-box p { font-size: .86rem; line-height: 1.6; color: rgba(14,14,20,.75); }
+  .tip-box strong { color: var(--ink); }
+
+  /* ── QUIZ ── */
+  .quiz-section { background: var(--ink); border-radius: 16px; padding: 2rem; margin: 2rem 0; color: var(--paper); }
+  .quiz-q { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-style: italic; margin-bottom: 1.2rem; }
+  .quiz-options { display: flex; flex-direction: column; gap: .6rem; }
+  .quiz-opt {
+    padding: .8rem 1.2rem; border-radius: 8px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    cursor: pointer; font-size: .88rem;
+    transition: all .2s; color: var(--paper);
+  }
+  .quiz-opt:hover { background: rgba(255,255,255,.12); }
+  .quiz-opt.correct { background: rgba(62,184,184,.25); border-color: var(--teal-light); }
+  .quiz-opt.wrong { background: rgba(224,92,58,.2); border-color: var(--coral); }
+  .quiz-feedback { margin-top: 1rem; font-size: .88rem; min-height: 1.5rem; color: var(--gold); font-style: italic; }
+
+  /* ── SECTION DIVIDERS ── */
+  .divider { height: 1px; background: var(--border); margin: 3rem 0; }
+  .h2-section {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem; font-weight: 800;
+    margin-bottom: 1.2rem;
+  }
+  .h3-section {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700;
+    margin-bottom: .7rem; margin-top: 1.5rem;
+  }
+  .body-text { font-size: .9rem; color: rgba(14,14,20,.65); line-height: 1.7; margin-bottom: 1rem; }
