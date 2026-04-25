@@ -719,6 +719,165 @@
     box-shadow: 0 16px 28px rgba(14,14,20,.12);
   }
 
+
+
+  /* ── LABORATORIO COGNITIVO ── */
+  .lab-layout {
+    display: grid;
+    gap: 1.2rem;
+  }
+  .lab-performance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: .9rem;
+  }
+  .lab-score-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem;
+    box-shadow: 0 10px 25px rgba(14,14,20,.06);
+    transition: transform .2s ease;
+  }
+  .lab-score-card:hover { transform: translateY(-3px); }
+  .lab-score-card header {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .7rem;
+    font-weight: 700;
+  }
+  .lab-score-value {
+    font-size: 2rem;
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+    margin-bottom: .35rem;
+  }
+  .lab-score-label { font-weight: 700; font-size: .9rem; }
+  .lab-score-detail, .lab-score-empty, .lab-score-card small {
+    color: rgba(14,14,20,.56);
+    font-size: .78rem;
+    line-height: 1.45;
+  }
+  .semantic-success .lab-score-value, .semantic-positive .lab-score-value { color: var(--teal); }
+  .semantic-warning .lab-score-value { color: var(--gold); }
+  .semantic-critical .lab-score-value { color: var(--coral); }
+
+  .lab-experiments {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  .lab-exp-card {
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    padding: 1rem;
+    box-shadow: 0 16px 30px rgba(14,14,20,.06);
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+  }
+  .lab-exp-head { display:flex; align-items:center; justify-content:space-between; gap:.8rem; }
+  .lab-exp-head h3 { font-family:'Playfair Display',serif; font-size:1.05rem; }
+  .lab-exp-tag { font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--teal); font-weight:700; }
+  .lab-exp-desc { font-size:.84rem; color:rgba(14,14,20,.58); line-height:1.5; }
+  .lab-cta {
+    border:none;
+    border-radius: 999px;
+    padding: .72rem 1.1rem;
+    background: linear-gradient(120deg,var(--ink),var(--violet));
+    color: var(--paper);
+    font-weight: 700;
+    font-size: .85rem;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: transform .15s ease, filter .2s ease;
+  }
+  .lab-cta:hover { transform: translateY(-1px) scale(1.015); filter: brightness(1.06); }
+  .lab-cta:active { transform: translateY(0) scale(.985); }
+
+  .lab-result-inline {
+    min-height: 1.3rem;
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--teal);
+  }
+
+  .attention-arena {
+    position: relative;
+    border-radius: 14px;
+    min-height: 140px;
+    background: radial-gradient(circle at 22% 20%, rgba(62,184,184,.18), rgba(14,14,20,.95));
+    border: 1px solid rgba(255,255,255,.15);
+    overflow: hidden;
+  }
+  .attention-dot {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: transform .12s ease;
+    touch-action: manipulation;
+  }
+  .attention-dot:active { transform: scale(.9); }
+  .attention-dot.target { background: var(--gold-light); }
+  .attention-dot.decoy { background: rgba(255,255,255,.4); }
+
+  .illusion-stage {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #f7f8fb;
+    border-radius: 12px;
+    padding: .8rem;
+    border: 1px solid var(--border);
+    gap: .8rem;
+  }
+  .illusion-circle {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    border: 3px solid var(--violet-light);
+    position: relative;
+    cursor: pointer;
+    transition: transform .2s ease;
+  }
+  .illusion-circle::before,
+  .illusion-circle::after {
+    content: '';
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: rgba(92,61,143,.3);
+    top: -11px;
+    left: 8px;
+    box-shadow: 58px 0 rgba(92,61,143,.3), 0 80px rgba(92,61,143,.3), 58px 80px rgba(92,61,143,.3);
+  }
+  .illusion-circle.switched { transform: scale(1.16); }
+
+  .memory-board {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .6rem;
+  }
+  .memory-tile {
+    min-height: 58px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, rgba(62,184,184,.17), rgba(92,61,143,.3));
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform .12s ease;
+  }
+  .memory-tile:active { transform: scale(.96); }
+  .memory-tile.flash {
+    background: linear-gradient(135deg, rgba(201,168,76,.94), rgba(232,201,106,.92));
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     .hero { grid-template-columns: 1fr; }
@@ -735,6 +894,10 @@
     .brain-ring:nth-child(4) { width:95px;height:95px; }
     .brain3d-layout { grid-template-columns: 1fr; }
     #brain-viewport, #brain-panel { min-height: 420px; }
+    .lab-exp-card { padding: .9rem; }
+    .lab-cta { width: 100%; text-align: center; }
+    .illusion-circle { width: 66px; height: 66px; }
+    .attention-dot { width: 48px; height: 48px; }
   }
 </style>
 </head>
@@ -777,6 +940,7 @@
   <div class="nav-item" data-module-id="ejercicio" onclick="navigate('ejercicio',this)"><span class="nav-icon">🏃</span> Ejercicio & Cerebro <span class="nav-complete">✓</span></div>
   <div class="nav-item" data-module-id="mapa" onclick="navigate('mapa',this)"><span class="nav-icon">🗺️</span> Mapa Cerebral 3D <span class="nav-complete">✓</span></div>
   <div class="nav-item" onclick="navigate('quiz',this)"><span class="nav-icon">✏️</span> Test de Conocimiento <span class="nav-badge">Quiz</span></div>
+  <div class="nav-item" onclick="navigate('laboratorio',this)"><span class="nav-icon">🧪</span> Laboratorio Cognitivo <span class="nav-badge">Nuevo</span></div>
 </nav>
 
 <div id="overlay" onclick="toggleSidebar()"></div>
@@ -1614,6 +1778,60 @@
     </div>
   </div>
 
+
+  <!-- ══════════════ LABORATORIO ══════════════ -->
+  <div id="page-laboratorio" class="page">
+    <div class="content-hero" data-emoji="🧪" style="border-left: 5px solid var(--violet);">
+      <div class="content-tag" style="color:var(--violet)">NeuroLab Interactivo</div>
+      <h1 class="content-h1">Laboratorio Cognitivo Premium</h1>
+      <p class="content-intro">Entrena foco, memoria de trabajo y percepción en micro-experimentos diseñados para móvil y desktop, con feedback inmediato.</p>
+    </div>
+    <div class="content-body">
+      <div class="lab-layout">
+        <section>
+          <h2 class="h2-section">Panel de desempeño</h2>
+          <div id="lab-performance-grid" class="lab-performance-grid"></div>
+        </section>
+        <section>
+          <h2 class="h2-section">Experimentos</h2>
+          <div class="lab-experiments">
+            <article class="lab-exp-card" data-lab-attention>
+              <div class="lab-exp-head"><h3>Atención Reactiva</h3><span class="lab-exp-tag">cronómetro</span></div>
+              <p class="lab-exp-desc">Toca el estímulo objetivo lo más rápido posible y evita distractores.</p>
+              <button class="lab-cta" data-attention-start type="button">Iniciar test</button>
+              <div class="attention-arena" data-attention-arena></div>
+              <div class="lab-result-inline" data-attention-status>Listo para empezar.</div>
+            </article>
+
+            <article class="lab-exp-card" data-lab-illusion>
+              <div class="lab-exp-head"><h3>Ilusión Visual Contextual</h3><span class="lab-exp-tag">percepción</span></div>
+              <p class="lab-exp-desc">Elige qué círculo parece mayor y descubre el sesgo perceptivo detrás.</p>
+              <button class="lab-cta" data-illusion-toggle type="button">Cambiar contexto</button>
+              <div class="illusion-stage">
+                <button class="illusion-circle" data-size="equal" type="button" aria-label="Círculo izquierdo"></button>
+                <button class="illusion-circle" data-size="bigger" type="button" aria-label="Círculo derecho"></button>
+              </div>
+              <div class="lab-result-inline" data-illusion-feedback>Ambos círculos son iguales: toca uno para responder.</div>
+            </article>
+
+            <article class="lab-exp-card" data-lab-memory>
+              <div class="lab-exp-head"><h3>Memoria Mini-Test</h3><span class="lab-exp-tag">working memory</span></div>
+              <p class="lab-exp-desc">Memoriza y repite secuencias progresivas para medir memoria de trabajo.</p>
+              <button class="lab-cta" data-memory-start type="button">Iniciar secuencia</button>
+              <div class="memory-board" data-memory-board>
+                <button class="memory-tile" type="button"></button>
+                <button class="memory-tile" type="button"></button>
+                <button class="memory-tile" type="button"></button>
+                <button class="memory-tile" type="button"></button>
+              </div>
+              <div class="lab-result-inline" data-memory-status>Esperando inicio.</div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
 </main>
 
 <script>
@@ -1627,7 +1845,7 @@
     home: 'Inicio', desarrollo: 'Desarrollo Cerebral', ninez: 'Niñez',
     adolescencia: 'Adolescencia', adultez: 'Adultez', memoria: 'Memoria',
     atencion: 'Atención', emocion: 'Emoción', sueno: 'Sueño',
-    neuroplasticidad: 'Neuroplasticidad', nutricion: 'Nutrición', ejercicio: 'Ejercicio', mapa: 'Mapa Cerebral 3D', brain3d: 'Mapa Cerebral 3D', quiz: 'Quiz'
+    neuroplasticidad: 'Neuroplasticidad', nutricion: 'Nutrición', ejercicio: 'Ejercicio', mapa: 'Mapa Cerebral 3D', brain3d: 'Mapa Cerebral 3D', quiz: 'Quiz', laboratorio: 'Laboratorio Cognitivo'
   };
 
   function navigate(pageId, navEl) {
@@ -1873,5 +2091,6 @@
   updateProgressUI();
 </script>
 <script type="module" src="./src/brain3d/BrainPanel.js"></script>
+<script type="module" src="./src/lab/index.js"></script>
 </body>
 </html>
