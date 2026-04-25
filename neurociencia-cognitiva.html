@@ -698,28 +698,37 @@
     <h1>NeuroMente</h1>
     <p>Neurociencia & Cognición</p>
   </div>
+  <div class="sidebar-progress">
+    <div class="sidebar-progress-head">
+      <span>Progreso global</span>
+      <strong id="global-progress-label">0%</strong>
+    </div>
+    <div class="sidebar-progress-track">
+      <span class="sidebar-progress-fill" id="global-progress-fill"></span>
+    </div>
+  </div>
 
   <div class="nav-section">Inicio</div>
-  <div class="nav-item active" onclick="navigate('home',this)"><span class="nav-icon">🏠</span> Inicio</div>
+  <div class="nav-item active" onclick="navigate('home', this)" data-nav-page="home"><span class="nav-icon">🏠</span> Inicio</div>
 
   <div class="nav-section">Desarrollo</div>
-  <div class="nav-item" onclick="navigate('desarrollo',this)"><span class="nav-icon">🧬</span> Desarrollo Cerebral</div>
-  <div class="nav-item" onclick="navigate('ninez',this)"><span class="nav-icon">🧒</span> Niñez (0–12 años)</div>
-  <div class="nav-item" onclick="navigate('adolescencia',this)"><span class="nav-icon">🧑</span> Adolescencia</div>
-  <div class="nav-item" onclick="navigate('adultez',this)"><span class="nav-icon">👨</span> Adultez & Madurez</div>
+  <div class="nav-item" onclick="navigate('desarrollo', this)" data-nav-page="desarrollo"><span class="nav-icon">🧬</span> Desarrollo Cerebral</div>
+  <div class="nav-item" onclick="navigate('ninez', this)" data-nav-page="ninez"><span class="nav-icon">🧒</span> Niñez (0–12 años)</div>
+  <div class="nav-item" onclick="navigate('adolescencia', this)" data-nav-page="adolescencia"><span class="nav-icon">🧑</span> Adolescencia</div>
+  <div class="nav-item" onclick="navigate('adultez', this)" data-nav-page="adultez"><span class="nav-icon">👨</span> Adultez & Madurez</div>
 
   <div class="nav-section">Rendimiento</div>
-  <div class="nav-item" onclick="navigate('memoria',this)"><span class="nav-icon">🗃️</span> Memoria & Aprendizaje</div>
-  <div class="nav-item" onclick="navigate('atencion',this)"><span class="nav-icon">🎯</span> Atención & Foco</div>
-  <div class="nav-item" onclick="navigate('emocion',this)"><span class="nav-icon">❤️</span> Emoción & Cognición</div>
-  <div class="nav-item" onclick="navigate('sueno',this)"><span class="nav-icon">😴</span> Sueño & Rendimiento</div>
+  <div class="nav-item" onclick="navigate('memoria', this)" data-nav-page="memoria"><span class="nav-icon">🗃️</span> Memoria & Aprendizaje</div>
+  <div class="nav-item" onclick="navigate('atencion', this)" data-nav-page="atencion"><span class="nav-icon">🎯</span> Atención & Foco</div>
+  <div class="nav-item" onclick="navigate('emocion', this)" data-nav-page="emocion"><span class="nav-icon">❤️</span> Emoción & Cognición</div>
+  <div class="nav-item" onclick="navigate('sueno', this)" data-nav-page="sueno"><span class="nav-icon">😴</span> Sueño & Rendimiento</div>
 
   <div class="nav-section">Optimización</div>
-  <div class="nav-item" onclick="navigate('neuroplasticidad',this)"><span class="nav-icon">🔀</span> Neuroplasticidad</div>
-  <div class="nav-item" onclick="navigate('nutricion',this)"><span class="nav-icon">🥑</span> Nutrición Cerebral</div>
-  <div class="nav-item" onclick="navigate('ejercicio',this)"><span class="nav-icon">🏃</span> Ejercicio & Cerebro</div>
-  <div class="nav-item" onclick="navigate('mapa',this)"><span class="nav-icon">🗺️</span> Mapa Cerebral 3D</div>
-  <div class="nav-item" onclick="navigate('quiz',this)"><span class="nav-icon">✏️</span> Test de Conocimiento <span class="nav-badge">Quiz</span></div>
+  <div class="nav-item" onclick="navigate('neuroplasticidad', this)" data-nav-page="neuroplasticidad"><span class="nav-icon">🔀</span> Neuroplasticidad</div>
+  <div class="nav-item" onclick="navigate('nutricion', this)" data-nav-page="nutricion"><span class="nav-icon">🥑</span> Nutrición Cerebral</div>
+  <div class="nav-item" onclick="navigate('ejercicio', this)" data-nav-page="ejercicio"><span class="nav-icon">🏃</span> Ejercicio & Cerebro</div>
+  <div class="nav-item" onclick="navigate('mapa', this)" data-nav-page="mapa"><span class="nav-icon">🗺️</span> Mapa Cerebral 3D</div>
+  <div class="nav-item" onclick="navigate('quiz', this)" data-nav-page="quiz"><span class="nav-icon">✏️</span> Test de Conocimiento <span class="nav-badge">Quiz</span></div>
 </nav>
 
 <div id="overlay" onclick="toggleSidebar()"></div>
@@ -787,77 +796,79 @@
         <p class="section-sub">Navega por cada sección para aprender en profundidad</p>
       </div>
       <div class="modules-grid">
-        <div class="module-card" onclick="navigate('desarrollo', null)">
+        <div class="module-card" onclick="navigate('desarrollo', null)" data-nav-page="desarrollo">
           <div class="module-card-top" style="background:linear-gradient(135deg,#2a8a8a22,#2a8a8a44)">🧬</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--teal)">Fundamentos</div>
             <h3>Desarrollo Cerebral</h3>
             <p>Cómo se construye el cerebro desde el embrión hasta la adultez.</p>
           </div>
-          <div class="module-card-footer"><span>8 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>8 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('ninez', null)">
+        <div class="module-card" onclick="navigate('ninez', null)" data-nav-page="ninez">
           <div class="module-card-top" style="background:linear-gradient(135deg,#e05c3a22,#e05c3a44)">🧒</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--coral)">0–12 años</div>
             <h3>Niñez</h3>
             <p>Ventanas críticas de aprendizaje, lenguaje y desarrollo socioemocional.</p>
           </div>
-          <div class="module-card-footer"><span>10 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>10 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('adolescencia', null)">
+        <div class="module-card" onclick="navigate('adolescencia', null)" data-nav-page="adolescencia">
           <div class="module-card-top" style="background:linear-gradient(135deg,#5c3d8f22,#5c3d8f44)">🧑</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--violet)">12–24 años</div>
             <h3>Adolescencia</h3>
             <p>Poda sináptica, riesgo, recompensa y el cerebro en construcción.</p>
           </div>
-          <div class="module-card-footer"><span>9 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>9 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('adultez', null)">
+        <div class="module-card" onclick="navigate('adultez', null)" data-nav-page="adultez">
           <div class="module-card-top" style="background:linear-gradient(135deg,#c9a84c22,#c9a84c44)">👨</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--gold)">25+ años</div>
             <h3>Adultez & Madurez</h3>
             <p>Mantenimiento cognitivo, envejecimiento y reserva cerebral.</p>
           </div>
-          <div class="module-card-footer"><span>11 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>11 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('memoria', null)">
+        <div class="module-card" onclick="navigate('memoria', null)" data-nav-page="memoria">
           <div class="module-card-top" style="background:linear-gradient(135deg,#3a6ea822,#3a6ea844)">🗃️</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--sky)">Cognición</div>
             <h3>Memoria & Aprendizaje</h3>
             <p>Tipos de memoria, consolidación y estrategias para aprender mejor.</p>
           </div>
-          <div class="module-card-footer"><span>12 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>12 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('atencion', null)">
+        <div class="module-card" onclick="navigate('atencion', null)" data-nav-page="atencion">
           <div class="module-card-top" style="background:linear-gradient(135deg,#5a7a5a22,#5a7a5a44)">🎯</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--sage)">Foco</div>
             <h3>Atención & Foco</h3>
             <p>Redes atencionales, TDAH, y técnicas para mejorar la concentración.</p>
           </div>
-          <div class="module-card-footer"><span>9 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>9 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('neuroplasticidad', null)">
+        <div class="module-card" onclick="navigate('neuroplasticidad', null)" data-nav-page="neuroplasticidad">
+        <div class="module-card" data-module-id="neuroplasticidad" onclick="navigate('neuroplasticidad', null)">
           <div class="module-card-top" style="background:linear-gradient(135deg,#c45c7a22,#c45c7a44)">🔀</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:var(--rose)">Optimización</div>
             <h3>Neuroplasticidad</h3>
             <p>Cómo el cerebro se rewire y cómo aprovecharlo a cualquier edad.</p>
           </div>
-          <div class="module-card-footer"><span>10 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>10 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
-        <div class="module-card" onclick="navigate('sueno', null)">
+        <div class="module-card" onclick="navigate('sueno', null)" data-nav-page="sueno">
+        <div class="module-card" data-module-id="sueno" onclick="navigate('sueno', null)">
           <div class="module-card-top" style="background:linear-gradient(135deg,#2a4a8a22,#2a4a8a44)">😴</div>
           <div class="module-card-body">
             <div class="module-card-tag" style="color:#3a5ea8">Recuperación</div>
             <h3>Sueño & Rendimiento</h3>
             <p>Por qué dormir bien es la herramienta cognitiva más poderosa.</p>
           </div>
-          <div class="module-card-footer"><span>8 min de lectura</span><span class="card-arrow">→</span></div>
+          <div class="module-card-footer"><span>8 min de lectura</span><span class="module-complete-badge">✓ completado</span><span class="card-arrow">→</span></div>
         </div>
       </div>
     </div>
@@ -959,9 +970,9 @@
 
       <div class="tabs-wrap">
         <div class="tab-buttons">
-          <button class="tab-btn active" onclick="showTab('ninez','0-2')">0–2 años</button>
-          <button class="tab-btn" onclick="showTab('ninez','3-6')">3–6 años</button>
-          <button class="tab-btn" onclick="showTab('ninez','7-12')">7–12 años</button>
+          <button class="tab-btn active" onclick="showTab('ninez','0-2')" data-tab-group="ninez" data-tab-id="0-2">0–2 años</button>
+          <button class="tab-btn" onclick="showTab('ninez','3-6')" data-tab-group="ninez" data-tab-id="3-6">3–6 años</button>
+          <button class="tab-btn" onclick="showTab('ninez','7-12')" data-tab-group="ninez" data-tab-id="7-12">7–12 años</button>
         </div>
         <div id="tab-ninez-0-2" class="tab-content active">
           <h3 class="h3-section">El Cerebro del Bebé (0–2 años)</h3>
@@ -1557,190 +1568,61 @@
     </div>
   </div>
 
-</main>
 
-<script>
-  // ── NAV ──
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('show');
-  }
+  <!-- ══════════════ LABORATORIO ══════════════ -->
+  <div id="page-laboratorio" class="page">
+    <div class="content-hero" data-emoji="🧪" style="border-left: 5px solid var(--violet);">
+      <div class="content-tag" style="color:var(--violet)">NeuroLab Interactivo</div>
+      <h1 class="content-h1">Laboratorio Cognitivo Premium</h1>
+      <p class="content-intro">Entrena foco, memoria de trabajo y percepción en micro-experimentos diseñados para móvil y desktop, con feedback inmediato.</p>
+    </div>
+    <div class="content-body">
+      <div class="lab-layout">
+        <section>
+          <h2 class="h2-section">Panel de desempeño</h2>
+          <div id="lab-performance-grid" class="lab-performance-grid"></div>
+        </section>
+        <section>
+          <h2 class="h2-section">Experimentos</h2>
+          <div class="lab-experiments">
+            <article class="lab-exp-card" data-lab-attention>
+              <div class="lab-exp-head"><h3>Atención Reactiva</h3><span class="lab-exp-tag">cronómetro</span></div>
+              <p class="lab-exp-desc">Toca el estímulo objetivo lo más rápido posible y evita distractores.</p>
+              <button class="lab-cta" data-attention-start type="button">Iniciar test</button>
+              <div class="attention-arena" data-attention-arena></div>
+              <div class="lab-result-inline" data-attention-status>Listo para empezar.</div>
+            </article>
 
-  const breadcrumbs = {
-    home: 'Inicio', desarrollo: 'Desarrollo Cerebral', ninez: 'Niñez',
-    adolescencia: 'Adolescencia', adultez: 'Adultez', memoria: 'Memoria',
-    atencion: 'Atención', emocion: 'Emoción', sueno: 'Sueño',
-    neuroplasticidad: 'Neuroplasticidad', nutricion: 'Nutrición', ejercicio: 'Ejercicio', mapa: 'Mapa Cerebral 3D', brain3d: 'Mapa Cerebral 3D', quiz: 'Quiz'
-  };
+            <article class="lab-exp-card" data-lab-illusion>
+              <div class="lab-exp-head"><h3>Ilusión Visual Contextual</h3><span class="lab-exp-tag">percepción</span></div>
+              <p class="lab-exp-desc">Elige qué círculo parece mayor y descubre el sesgo perceptivo detrás.</p>
+              <button class="lab-cta" data-illusion-toggle type="button">Cambiar contexto</button>
+              <div class="illusion-stage">
+                <button class="illusion-circle" data-size="equal" type="button" aria-label="Círculo izquierdo"></button>
+                <button class="illusion-circle" data-size="bigger" type="button" aria-label="Círculo derecho"></button>
+              </div>
+              <div class="lab-result-inline" data-illusion-feedback>Ambos círculos son iguales: toca uno para responder.</div>
+            </article>
 
-  function navigate(pageId, navEl) {
-    if (pageId === 'brain3d') pageId = 'mapa';
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const targetPage = document.getElementById('page-' + pageId) || document.getElementById('page-home');
-    targetPage.classList.add('active');
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    if (navEl) navEl.classList.add('active');
-    else {
-      document.querySelectorAll('.nav-item').forEach(n => {
-        if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'"+pageId+"'"))
-          n.classList.add('active');
-      });
-    }
-    document.getElementById('breadcrumb').textContent = breadcrumbs[pageId] || pageId;
-    if (window.innerWidth < 900) {
-      document.getElementById('sidebar').classList.remove('open');
-      document.getElementById('overlay').classList.remove('show');
-    }
-    window.scrollTo(0,0);
-    if (pageId === 'quiz') renderQuiz();
-    window.dispatchEvent(new CustomEvent('page:changed', { detail: { pageId } }));
-  }
-
-  // ── TABS ──
-  function showTab(group, id) {
-    document.querySelectorAll(`[id^="tab-${group}-"]`).forEach(t => t.classList.remove('active'));
-    document.getElementById(`tab-${group}-${id}`).classList.add('active');
-    event.target.closest('.tab-buttons').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-  }
-
-  // ── ACCORDION ──
-  function toggleAcc(header) {
-    const item = header.closest('.acc-item');
-    item.classList.toggle('open');
-  }
-
-  // ── QUIZ ──
-  const questions = [
-    {
-      q: "¿A qué edad madura completamente el córtex prefrontal humano?",
-      opts: ["16 años", "18 años", "25 años", "30 años"],
-      ans: 2,
-      exp: "El córtex prefrontal, responsable del control ejecutivo y la toma de decisiones, alcanza su madurez plena alrededor de los 25 años."
-    },
-    {
-      q: "¿Cuántas conexiones sinápticas puede formar una neurona durante los primeros años de vida?",
-      opts: ["Hasta 1.000", "Hasta 5.000", "Hasta 15.000", "Hasta 100.000"],
-      ans: 2,
-      exp: "En los primeros años de vida, cada neurona puede establecer hasta 15.000 conexiones sinápticas, durante la 'sinaptogénesis explosiva'."
-    },
-    {
-      q: "¿Qué sustancia libera el ejercicio aeróbico y se llama 'fertilizante cerebral'?",
-      opts: ["Serotonina", "BDNF", "Cortisol", "Insulina"],
-      ans: 1,
-      exp: "El BDNF (Factor Neurotrófico Derivado del Cerebro) se eleva hasta 3x con el ejercicio aeróbico y promueve la neurogénesis y la plasticidad sináptica."
-    },
-    {
-      q: "¿Qué ocurre durante el sueño profundo (N3) en el cerebro?",
-      opts: [
-        "Se generan sueños vívidos",
-        "El sistema glinfático elimina proteínas tóxicas como el beta-amiloide",
-        "Aumenta la actividad del córtex visual",
-        "Se libera adrenalina"
-      ],
-      ans: 1,
-      exp: "Durante el sueño N3 (ondas delta), el sistema glinfático actúa como sistema de limpieza cerebral, eliminando productos de desecho como el beta-amiloide, asociado al Alzheimer."
-    },
-    {
-      q: "Según el 'Efecto de Prueba' (Testing Effect), ¿qué estrategia mejora más la memoria?",
-      opts: [
-        "Releer el material varias veces",
-        "Subrayar con diferentes colores",
-        "Recuperar activamente la información",
-        "Estudiar en grupos grandes"
-      ],
-      ans: 2,
-      exp: "La práctica de recuperación activa (intentar recordar sin mirar el material) es 2–3 veces más efectiva que releer para consolidar memoria a largo plazo."
-    },
-    {
-      q: "¿Por qué los adolescentes tienden a buscar más riesgo y novedad?",
-      opts: [
-        "Por inmadurez emocional general",
-        "Porque el sistema límbico madura antes que el córtex prefrontal",
-        "Por influencia hormonal exclusivamente",
-        "Porque tienen menos neuronas que los adultos"
-      ],
-      ans: 1,
-      exp: "El desequilibrio entre el sistema límbico (ya maduro, hipersensible a recompensas) y el córtex prefrontal (aún en desarrollo) explica la búsqueda de riesgo adolescente."
-    },
-    {
-      q: "¿Qué es la 'reserva cognitiva'?",
-      opts: [
-        "La cantidad de neuronas que uno nace",
-        "La capacidad del cerebro de tolerar daño sin manifestar síntomas clínicos",
-        "El volumen total del hipocampo",
-        "La velocidad de procesamiento neural"
-      ],
-      ans: 1,
-      exp: "La reserva cognitiva es la capacidad del cerebro de usar redes alternativas para compensar daño neurológico. Se construye con educación, ejercicio y estimulación cognitiva."
-    },
-    {
-      q: "El principio de Hebb establece que...",
-      opts: [
-        "El cerebro adulto no puede cambiar",
-        "Las neuronas que se activan juntas, se conectan juntas",
-        "El sueño bloquea la plasticidad",
-        "La memoria disminuye con la edad inevitablemente"
-      ],
-      ans: 1,
-      exp: "La Regla de Hebb ('neurons that fire together, wire together') es el mecanismo celular del aprendizaje: la activación repetida de una sinapsis la fortalece estructuralmente."
-    }
-  ];
-
-  let answered = [];
-  let score = 0;
-
-  function renderQuiz() {
-    answered = new Array(questions.length).fill(null);
-    score = 0;
-    const container = document.getElementById('quiz-container');
-    container.innerHTML = questions.map((q, i) => `
-      <div class="quiz-section" id="q${i}" style="margin-bottom:1.5rem;">
-        <div class="quiz-q">${i+1}. ${q.q}</div>
-        <div class="quiz-options">
-          ${q.opts.map((opt, j) => `
-            <div class="quiz-opt" onclick="answerQ(${i},${j})" id="opt-${i}-${j}">${opt}</div>
-          `).join('')}
-        </div>
-        <div class="quiz-feedback" id="fb-${i}"></div>
+            <article class="lab-exp-card" data-lab-memory>
+              <div class="lab-exp-head"><h3>Memoria Mini-Test</h3><span class="lab-exp-tag">working memory</span></div>
+              <p class="lab-exp-desc">Memoriza y repite secuencias progresivas para medir memoria de trabajo.</p>
+              <button class="lab-cta" data-memory-start type="button">Iniciar secuencia</button>
+              <div class="memory-board" data-memory-board>
+                <button class="memory-tile" type="button"></button>
+                <button class="memory-tile" type="button"></button>
+                <button class="memory-tile" type="button"></button>
+                <button class="memory-tile" type="button"></button>
+              </div>
+              <div class="lab-result-inline" data-memory-status>Esperando inicio.</div>
+            </article>
+          </div>
+        </section>
       </div>
-    `).join('') + `<div id="quiz-result" style="display:none;text-align:center;padding:2rem;background:white;border-radius:16px;border:1px solid var(--border);margin-top:1rem;"></div>`;
-  }
+    </div>
+  </div>
 
-  function answerQ(qi, optIdx) {
-    if (answered[qi] !== null) return;
-    answered[qi] = optIdx;
-    const correct = questions[qi].ans;
-    for (let j = 0; j < questions[qi].opts.length; j++) {
-      const el = document.getElementById(`opt-${qi}-${j}`);
-      el.style.pointerEvents = 'none';
-      if (j === correct) el.classList.add('correct');
-      if (j === optIdx && optIdx !== correct) el.classList.add('wrong');
-    }
-    const fb = document.getElementById(`fb-${qi}`);
-    if (optIdx === correct) {
-      score++;
-      fb.textContent = '✅ ' + questions[qi].exp;
-      fb.style.color = 'var(--teal-light)';
-    } else {
-      fb.textContent = '❌ ' + questions[qi].exp;
-      fb.style.color = 'var(--coral)';
-    }
-    if (answered.every(a => a !== null)) showResult();
-  }
-
-  function showResult() {
-    const pct = Math.round((score/questions.length)*100);
-    const msg = pct >= 80 ? '🧠 ¡Experto en Neurociencia!' : pct >= 60 ? '👍 Buen conocimiento, seguí aprendiendo' : '📚 Revisá los módulos para reforzar';
-    document.getElementById('quiz-result').style.display = 'block';
-    document.getElementById('quiz-result').innerHTML = `
-      <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--teal)">${pct}%</div>
-      <div style="font-size:1.1rem;font-weight:600;margin:.5rem 0">${score} / ${questions.length} correctas</div>
-      <div style="font-size:.9rem;color:rgba(14,14,20,.6)">${msg}</div>
-    `;
-  }
-
-  function resetQuiz() { renderQuiz(); }
+</main>
 
   // Lazy init del mapa 3D: solo al entrar a página mapa o cuando viewport sea visible.
   const brain3DLoader = (() => {

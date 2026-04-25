@@ -1,0 +1,27 @@
+  :root {
+    --ink: #0e0e14;
+    --paper: #f5f2eb;
+    --cream: #ece8de;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --coral: #e05c3a;
+    --teal: #2a8a8a;
+    --teal-light: #3eb8b8;
+    --violet: #5c3d8f;
+    --violet-light: #8b6abf;
+    --sage: #5a7a5a;
+    --rose: #c45c7a;
+    --sky: #3a6ea8;
+    --accent: #c9a84c;
+    --border: rgba(14,14,20,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
