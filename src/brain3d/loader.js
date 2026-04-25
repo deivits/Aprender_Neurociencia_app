@@ -46,8 +46,10 @@ export function lazyLoadBrainModel({ scene, container, modelUrl, onLoaded, onRet
         node.receiveShadow = false;
         if (node.material) {
           node.material = node.material.clone();
-          node.material.roughness = Math.min(node.material.roughness ?? 0.8, 0.9);
-          node.material.metalness = Math.max(node.material.metalness ?? 0.02, 0.02);
+          node.material.roughness = Math.min(node.material.roughness ?? 0.82, 0.9);
+          node.material.metalness = Math.min(node.material.metalness ?? 0.06, 0.12);
+          node.material.envMapIntensity = Math.min(node.material.envMapIntensity ?? 0.8, 0.75);
+          node.material.needsUpdate = true;
         }
       }
     });
