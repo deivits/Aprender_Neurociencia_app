@@ -1624,6 +1624,9 @@
 
 </main>
 
+<script type="module" src="./src/js/main.js"></script>
+<script type="module" src="./src/lab/index.js"></script>
+<script type="module">
   // Lazy init del mapa 3D: solo al entrar a página mapa o cuando viewport sea visible.
   const brain3DLoader = (() => {
     let bootPromise = null;
@@ -1655,11 +1658,14 @@
       });
     }
 
-    return { init() { setupViewportObserver(); setupPageActivationListener(); } };
+    return {
+      init() {
+        setupViewportObserver();
+        setupPageActivationListener();
+      }
+    };
   })();
 
-  // Init
-  renderQuiz();
   brain3DLoader.init();
 </script>
 </body>
